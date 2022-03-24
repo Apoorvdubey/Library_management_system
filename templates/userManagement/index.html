@@ -1,0 +1,192 @@
+
+{% extends "base/base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+     
+      <div class="col-lg-12 col-md-4 order-1">
+        <div class="row">
+        
+          <div class="col-lg-12 mb-4">
+            <div class="card">
+                <h5 class="card-header">
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <a class="btn btn-primary" href="/users/addUsers/"><i class="bx bx-user me-1"></i> Add User</a>
+                    </div>
+                    
+                    <div class="col-lg-3" style="text-align: right;">
+                      <form class="d-flex" method="GET" action="/users/searchUser/">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" placeholder="Search...">
+                          <span class="input-group-text"><i class="tf-icons bx bx-search"></i></span>
+                          
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-lg-3" style="text-align: right;">
+                      <select id="language" class="select2 form-select" onchange="javascript:handleSelect(this)">
+                        
+                        {% if request.path == '/users/listUsers/fullName/' %}
+                        <option value="" disabled>---------------</option>
+                        <option value="fullName" selected>Sort By Name</option>
+                        <option value="email" >Sort By Email </option>
+                        <option value="gender">Sort By Gender </option>
+                        <option value="createdAt">Sort By Time </option>
+
+                        {% elif request.path == "/users/listUsers/email/" %}
+                        
+                        <option value="" disabled>---------------</option>
+                        <option value="fullName" >Sort By Name</option>
+                        <option value="email" selected>Sort By Email </option>
+                        <option value="gender">Sort By Gender </option>
+                        <option value="createdAt">Sort By Time </option>
+
+                        {% elif request.path == "/users/listUsers/gender/" %}
+                        
+                        <option value="" disabled>---------------</option>
+                        <option value="fullName" >Sort By Name</option>
+                        <option value="email" >Sort By Email </option>
+                        <option value="gender" selected>Sort By Gender </option>
+                        <option value="createdAt">Sort By Time </option>
+
+                        {% elif request.path == "/users/listUsers/createdAt/" %}
+                        
+                        <option value="" disabled>---------------</option>
+                        <option value="fullName" >Sort By Name</option>
+                        <option value="email" >Sort By Email </option>
+                        <option value="gender">Sort By Gender </option>
+                        <option value="createdAt" selected>Sort By Time </option>
+
+                        {% else %}
+                        <option value="" disabled selected>---------------</option>
+                        <option value="fullName" >Sort By Name</option>
+                        <option value="email">Sort By Email </option>
+                        <option value="gender">Sort By Gender </option>
+                        <option value="createdAt">Sort By Time </option>
+                        {% endif %}
+
+                        
+                        <!-- <option value="fr">Sort By Date</option> -->
+                       
+                      </select>
+                    </div>
+                    <div class="col-lg-4" style="text-align: right;">
+                      <a class="btn btn-primary" href="/users/listUsers/id/"><i class='bx bx-refresh'></i></a>
+                    </div>
+                  </div>
+                  </h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Phone No</th>
+                        <th>Gender</th>    
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        {% for i in venues %}
+                      <tr>
+                        <td class="zoom-img">
+                          {% if i.image %}
+                          <img src="{{i.image}}" alt="avatar" class="rounded-circle w-10">
+                          {% else %}
+                          <img src="https://png.pngtree.com/element_our/20190604/ourmid/pngtree-user-avatar-boy-image_1482937.jpg" alt="avatar" class="rounded-circle w-10">
+                          {% endif %}
+                          <strong>{{i.fullName}}</strong></td>
+                        <td>{{i.email}}</td>
+                        <td>
+                            {{i.mobileNo}}
+
+                          
+                        </td>
+                        <td>{{i.gender}}</td>
+                        {% if i.isActive %}
+                        <td><span class="badge bg-label-success me-1">Active</span></td>
+                        {% else %}
+                        <td><span class="badge bg-label-danger me-1">InActive</span></td>
+                        {% endif %}
+                        <td>
+                                        <button type="submit" class="btn btn-primary btn-sm" ><a href="/users/editUser/{{i.id}}/"><i class='bx bx-edit-alt text-white' ></i></a></button>
+                                        <button type="submit" class="btn btn-primary btn-sm" ><a onclick="return confirm('Are you sure you want to delete this user?')" href="/users/deleteUser/{{i.id}}/"><i class='bx bx-trash text-white' ></i></a></button>
+                                        {% if i.isActive %}
+                                        <button type="submit" class="btn btn-primary btn-sm"><a onclick="return confirm('Are you sure you want to block this user?')" href="/users/blockUnblockUser/{{i.id}}/"><i class='bx bx-block text-white' ></i></a></button>
+                                        {% else %}
+                                        <button type="submit" class="btn btn-primary btn-sm"><a onclick="return confirm('Are you sure you want to unblock this user?')" href="/users/blockUnblockUser/{{i.id}}/"><i class='bx bx-block text-white' ></i></a></button>
+                                        {% endif %}
+                          
+                        </td>
+                      </tr>
+                      {% endfor %}
+                      
+                    </tbody>
+                  </table>
+                </div>
+
+                {% if request.resolver_match.url_name == 'listUsers' %}
+
+                <div class="demo-inline-spacing mt-4">
+                  <nav aria-label="Page navigation">
+
+                    <ul class="pagination justify-content-center">
+    
+                        {% if venues.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+                          <li class="page-item"><a class="page-link" href="?page={{ venues.previous_page_number }}">Previous</a></li>
+                            
+                        {% endif %}
+                        
+                        
+                        <li class="page-item disabled"><a href="#" class="page-link">Page {{ venues.number }} of {{ venues.paginator.num_pages }}</a></li>
+                        
+                        
+                        {% if venues.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ venues.next_page_number }}">Next</a></li>
+                        
+                            <li class="page-item"><a class="page-link" href="?page={{ venues.paginator.num_pages }}">Last &raquo</a></li>
+                        
+                        {% endif %}
+                        
+                         </ul>
+                  </nav>
+                 
+                </div>
+{% endif %}
+
+
+              </div>
+              </div>
+
+
+
+        </div>
+      </div>
+    
+    </div>
+   </div>
+
+   <script type="text/javascript">
+    function handleSelect(elm)
+    {
+      if(elm.value=='fullName'){
+      document.location.href = "/users/listUsers/fullName/";
+      }
+      if(elm.value=="email"){
+      document.location.href = "/users/listUsers/email/";
+      }
+      if(elm.value=="createdAt"){
+      document.location.href = "/users/listUsers/createdAt/";
+      }
+      if(elm.value=="gender"){
+      document.location.href = "/users/listUsers/gender/";
+      }
+    }
+  </script>
+
+   {% endblock %}

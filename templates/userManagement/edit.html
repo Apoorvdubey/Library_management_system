@@ -1,0 +1,171 @@
+
+
+  {% extends "base/base.html" %}
+  {% block content %}
+  {% load static %}
+  
+  
+  
+  
+  <link rel="stylesheet" href="{% static 'assets/vendor/css/common.css' %}" />
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+  
+        <div class="col-xxl">
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Edit User</h5>
+  
+                </div>
+                <div class="card-body">
+                  <form action="/users/editUser/{{context.id}}/" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+  
+                        <div class="row">
+                            <div class="col-lg-4">
+  
+                                <div class="profile-pic">
+                                    <label class="-label" for="file">
+                                        <span class="glyphicon glyphicon-camera"></span>
+                                        <span>Change Image</span>
+                                    </label>
+                                    <input id="file" name="image" value="{{context.image}}" type="file" onchange="loadFile(event)" />
+                                    <img src="{{context.image}}"
+                                        id="output" width="200" />
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="row mb-3">
+                                    <label class="col-sm-12 col-form-label"
+                                        for="basic-icon-default-fullname">Name</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-merge">
+                                            <span id="basic-icon-default-fullname2"
+                                                class="input-group-text"><i
+                                                    class="bx bx-user"></i></span>
+                                            <input type="text" class="form-control" name="fullName" required
+                                                id="basic-icon-default-fullname" value="{{context.fullName}}"
+                                                placeholder="John Doe" aria-label="John Doe"
+                                                aria-describedby="basic-icon-default-fullname2">
+                                        </div>
+                                    </div>
+                                </div>
+  
+                                <div class="row mb-3">
+                                    <label class="col-sm-12 col-form-label"
+                                        for="basic-icon-default-email">Email</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-merge">
+                                            <span class="input-group-text"><i
+                                                    class="bx bx-envelope"></i></span>
+                                            <input type="text" id="basic-icon-default-email" name="email" required readonly
+                                                class="form-control" placeholder="john.doe" value="{{context.email}}"
+                                                aria-label="john.doe"
+                                                aria-describedby="basic-icon-default-email2">
+                                            <span id="basic-icon-default-email2"
+                                                class="input-group-text">@example.com</span>
+                                        </div>
+                                        <div class="form-text">You can use letters, numbers &amp;
+                                            periods</div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-12 form-label"
+                                        for="basic-icon-default-phone">Phone No</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-merge">
+                                            <span id="basic-icon-default-phone2"
+                                                class="input-group-text"><i
+                                                    class="bx bx-phone"></i></span>
+                                            <input type="text" id="basic-icon-default-phone" name="mobileNo" required
+                                                class="form-control phone-mask" value="{{context.mobileNo}}"
+                                                placeholder="658 799 8941" aria-label="658 799 8941"
+                                                aria-describedby="basic-icon-default-phone2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-12 col-form-label"
+                                        for="basic-icon-default-company">Password</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-merge">
+                                            <span id="basic-icon-default-company2"
+                                                class="input-group-text"><i
+                                                    class="bx bx-lock"></i></span>
+                                            <input class="form-control" type="password" name="password" required value="{{context.password}}"
+                                              placeholder="Enter password" id="html5-password-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-12 form-label"
+                                        for="basic-icon-default-message">Gender</label>
+                                    <div class="col-sm-12">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                name="inlineRadioOptions" id="inlineRadio1"
+                                                value="M" style="border-color: black">
+                                            <label class="form-check-label"
+                                                for="inlineRadio1">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                name="inlineRadioOptions" id="inlineRadio2"
+                                                value="F" style="border-color: black">
+                                            <label class="form-check-label"
+                                                for="inlineRadio2">Female</label>
+                                        </div>
+  
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+  
+  
+  
+                    </form>
+                </div>
+            </div>
+        </div>
+  
+    </div>
+  </div>
+  <p style="display: none;" id="g">{{context.gender}}</p>
+  <script>
+    var loadFile = function (event) {
+  var image = document.getElementById("output");
+  image.src = URL.createObjectURL(event.target.files[0]);
+  };
+  
+  </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+  <script>
+      $(document).ready(function() { 
+            console.log(document.getElementById('g').innerHTML)
+            for (var i in document.getElementsByName("inlineRadioOptions")){
+                
+                if ((document.getElementsByName("inlineRadioOptions")[i].value==document.getElementById('g').innerHTML)){
+                    document.getElementsByName("inlineRadioOptions")[i].checked = true;
+
+                }
+                else if ((document.getElementsByName("inlineRadioOptions")[i].value==document.getElementById('g').innerHTML)){    
+                    document.getElementsByName("inlineRadioOptions")[i].checked = true;
+
+                }
+                // else{
+                //     console.log(",,,,,,,,,,,,", document.getElementsByName("inlineRadioOptions")[i])
+                //     document.getElementsByName("inlineRadioOptions")[i].checked = true;
+                // }
+            }
+          
+       });
+  </script>
+  
+  {% endblock %}
+  

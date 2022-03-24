@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{% load static %}
+                    <!-- Content -->
+
+                    
+                    <link rel="stylesheet" href="{% static 'assets/vendor/css/common.css' %}" />
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+
+                            <div class="col-xxl">
+                                <div class="card mb-4">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="mb-0">Add Book</h5>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <form  id="formAccountSettings" action="/bookManagement/addBooks/" method="POST" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                          <img src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-5-CRC.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                          <div class="button-wrapper">
+                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                              <span class="d-none d-sm-block">Upload Cover</span>
+                                              <i class="bx bx-upload d-block d-sm-none"></i>
+                                              <input type="file" id="upload" class="account-file-input" name="bookCover" required hidden="" accept="image/png, image/jpeg">
+                                            </label>
+                                            <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                                              <i class="bx bx-reset d-block d-sm-none"></i>
+                                              <span class="d-none d-sm-block">Reset</span>
+                                            </button>
+                  
+                                            <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <hr class="my-0">
+                                      <div class="card-body">
+                                        <!-- <form id="formAccountSettings" method="POST" onsubmit="return false"> -->
+                                            
+                                            <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                              <label for="name" class="form-label">Book Name</label>
+                                              <input class="form-control" type="text" id="name" name="name" required  autofocus="">
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                              <label for="author" class="form-label">Author Name</label>
+                                              <input class="form-control" type="text" name="author" required id="author" >
+                                            </div>
+                                            <div class="mb-3 col-md-4">
+                                              <label for="status" class="form-label">Status</label>
+                                              <select id="defaultSelect" required name="isAvailable" class="form-select">
+                                                <option>Default select</option>
+                                                <option value="True">Available</option>
+                                                <option value="False">Unavailable</option>
+                                              </select> 
+                                              </div>
+                                            <div class="mb-3 col-md-4">
+                                              <label for="file" class="form-label" >PDF Upload</label>
+                                              <input type="file" class="form-control" id="file" name="file" required>
+                                            </div>
+                                            <div class="mb-3 col-md-4">
+                                                <label for="price" class="form-label">Price</label>
+                                                <input class="form-control" type="text" id="price" name="price" required autofocus="">
+                                              </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="description" class="form-label">Description</label>
+                                                <textarea class="form-control" name="description" id="description" rows="3"></textarea>                                              </div>
+                                              <div class="mb-3 col-md-6">
+                                                <label for="authorDescription" class="form-label">Author Description</label>
+                                                <textarea class="form-control" name="authorDescription" id="authorDescription" rows="3"></textarea>                                              </div>
+                                           
+                                          </div>
+                                          <div class="mt-2">
+                                            <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                                            <button type="reset" class="btn btn-outline-secondary"><a href="/bookManagement/listBooks/id/" >Cancel</a></button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- / Content -->
+
+      {% endblock %}
