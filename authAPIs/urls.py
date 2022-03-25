@@ -10,6 +10,7 @@ from authAPIs.views import SendEmailOTPView,VerifyEmailOTPView
 from authAPIs.views import ChangePasswordView,ForgotPasswordView
 from authAPIs.views import BannersView,BooksListView
 from authAPIs.views import ProfileDetailView,ProfileUpdateView
+from authAPIs.views import ChangeBookmarkStatusView
 from rest_framework_simplejwt.views import ( TokenObtainPairView,TokenRefreshView,)
 from django.urls import path, include
 
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^books/list', BooksListView.as_view()),
     url(r'^profile/detail', ProfileDetailView.as_view()),
     url(r'^profile/update', ProfileUpdateView.as_view()),
+    url(r'^change/bookmark/status', ChangeBookmarkStatusView.as_view()),
     ]
 
 

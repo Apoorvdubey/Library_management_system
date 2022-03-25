@@ -33,7 +33,7 @@ from django.contrib.auth.models import Group,Permission
 from django.db import connection
 from users.models import Users
 from authAPIs.models import Banners
-from bookManagement.models import Book
+from bookManagement.models import Book,UserBookmarkBook
 # Create your views here.
 
 class UserRegistrationView(CreateAPIView):
@@ -696,3 +696,70 @@ class ProfileUpdateView(generics.UpdateAPIView):
              "response": None
             }
         return Response(response, status=status_code)   
+
+class ChangeBookmarkStatusView(generics.UpdateAPIView):
+    
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        try:
+           request_data = JSONParser().parse(request)
+           bookId = request_data['bookId']
+           bookmarkStatus = request_data['bookmarkStatus']
+           
+           check_book_if_exists = Book.objects.filter(pk=bookId).first()
+           if check_book_if_exists is None:
+                  response = {
+                   "error": {
+                     "errorCode": 30,
+                     "statusCode": status.HTTP_400_BAD_REQUEST,
+                     "errorMessage": "Invalid bookId!"
+                   },
+                   "response": None
+                  }
+                  status_code = status.HTTP_200_OK
+                  return Response(response, status=status_code)
+
+           if bookmarkStatus not in [0,1]:
+              response = {
+               "error": {
+                 "errorCode": 31,
+                 "statusCode": status.HTTP_200_OK,
+                 "errorMessage": "bookmarkStatus should be 1 for active or 3 for deactive"
+               },
+               "response": None
+              }
+              status_code = status.HTTP_200_OK
+              return Response(response, status=status_code)
+
+           saveBookmark = UserBookmarkBook()
+           saveBookmark.bookmarkStatus = bookmarkStatus
+           saveBookmark.bookId = message
+           saveBookmark.userId = booked_car.customerId.customerId
+           saveBookmark.createdAt = 1
+           saveBookmark.updatedAt = 1
+           saveBookmark.save()
+          
+           response = {
+             "error": None,
+             "response": {
+               "message": {
+                 'success' : True,
+                 "successCode": 32,
+                 "statusCode": status.HTTP_200_OK,
+                 "successMessage": msg
+               }
+             }
+           }
+           status_code = status.HTTP_200_OK
+           return Response(response, status=status_code)
+        except Exception as e:
+            status_code = status.HTTP_400_BAD_REQUEST
+            response =  {
+             "error": {
+               "errorCode": 33,
+               "statusCode": status.HTTP_400_BAD_REQUEST,
+               "errorMessage": str(e)
+             },
+             "response": None
+            }
+        return Response(response, status=status_code)
