@@ -78,15 +78,13 @@ WSGI_APPLICATION = 'ebookReader.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-import pymysql
-pymysql.version_info = (1, 4, 6, 'final', 0)
-pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ebook_db',
         'USER':'root',
-        'PASSWORD':'',
+        'PASSWORD':'Apponward@123',
         'HOST':'127.0.0.1',
         'PORT':'3306'
     }
