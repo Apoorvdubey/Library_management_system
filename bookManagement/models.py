@@ -3,6 +3,7 @@ from sre_parse import CATEGORIES
 from unicodedata import category
 from django.db import models
 from django.utils.timezone import now
+from users.models import Users
 
 # Create your models here.
 
@@ -21,4 +22,15 @@ class Book(models.Model):
 
     class Meta:
         db_table = 'books'
+
+class UserBookmarkBook(models.Model):
+  
+    bookmarkId = models.AutoField(primary_key=True)
+    bookmarkStatus = models.BooleanField(default=False)
+    userId = models.ForeignKey(Users, on_delete=models.CASCADE, default=None, blank=True, related_name='userDetail', db_column='userId')
+    bookId = models.ForeignKey(Book, on_delete=models.CASCADE, default=None, blank=True, related_name='bookDetail', db_column='bookId')
+    createdAt = models.DateTimeField(default=now, editable=False)
+    updatedAt = models.DateTimeField(default=now, editable=False)
+    class Meta:
+        db_table='user_bookmark_books'
     
