@@ -1,0 +1,32 @@
+<html lang="en">
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>EBook</title>
+  </head>
+  <body style="font-family: 'Lato', sans-serif; font-size: 14px; font-weight:300;padding:20px; background:#c8c8c8;">
+    <div class="mail-main" style="max-width:600px; margin: 0 auto; display: block; margin-top: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px -1px rgba(0,0,0,0.3); border-radius: 4px; background:#fff;">
+      <div class="mail-head" style="max-width: 130%; padding:7px 10px; background:#4a729e; border-radius: 4px 4px 0 0; margin-bottom:15px;">
+        <!-- <img src="http://13.235.0.7:8000/static/assets/dist/img/EBook-Logo.png" style="max-width:300px; margin: 0 auto; display: block;" height="30px" width="150px"/> -->
+      </div>
+      <div class="mail-midd" style="position: relative; max-width: 100%; padding: 5px 15px 15px 15px;">
+        <h3  style="font-size:15px; font-weight: 600; color: #424242; margin:0 0 12px 0;">Hi, {{fullName}} </h3>
+        <p style="font-size:15px; font-weight:400; line-height: 20px; color: #5d5d5d; margin:0 0 12px 0;">Welcome to EBook</p>
+        <p>We have received the request for email verification , please find the OTP below to confirm your Email Address :<br>
+        <span>OTP: </span><b>{{generate_otp}}</b>
+        </p>
+
+      </div>
+      <div class="sign" style=" position: relative; max-width: 100%; margin-top:15px; padding: 5px 15px">
+        <p style="font-size:15px; font-weight:400; line-height: 20px; color: #5d5d5d; margin:0 0 5px 0;">Kind Regards</p>
+        <h3  style="font-size:15px; font-weight: 600; color: #424242; margin:0 0 7px 0;">The EBook Team</h3>
+      </div>
+      <div class="mail-footer" style="max-width: 130%; padding:7px 10px; background:#4a729e; border-radius:0 0 4px 4px; margin-top:15px; text-align: center; " >
+        <p style="font-size:15px; font-weight:300; line-height: 20px; color: #fff; margin:0;">Copyright © <b>EBook</b> 2022</p>
+      </div>
+    </div>
+  </body>
+</html>
