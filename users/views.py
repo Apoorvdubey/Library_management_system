@@ -1,3 +1,4 @@
+from asyncio import FastChildWatcher
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
@@ -272,4 +273,3 @@ def search_user(request):
     instance = Users.objects.filter(fullName__icontains=user_name)
     print("instance ", instance)
     return render(request, "userManagement/index.html" ,{"venues": instance, "nums": 5})
-
