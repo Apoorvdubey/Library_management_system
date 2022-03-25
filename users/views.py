@@ -232,8 +232,23 @@ def block_unblock_user(request, pk):
 
 @login_required(login_url='/users/login/')
 def profile_view(request):
-    instance = Users.objects.get(pk=request.user.pk)
-    return render(request, "main/profile.html", {"context":instance} )
+    if request.method == "POST":
+        fullName = request.POST.get('fullName')
+        mobileNo = request.POST.get('mobileNo')
+        # gender = request.POST.get('inlineRadioOptions')
+        image = request.FILES.get('image')
+        
+        instance = Users.objects.filter(pk=request.user.pk)
+        currentImage = instance[0].image
+        if image is None:
+            image = currentImage
+        else:
+            image = s3_helper(image)
+        instance.update(fullName=fullName, mobileNo=mobileNo, image=image,)
+        return redirect("/")
+    else:
+        instance = Users.objects.get(pk=request.user.pk)
+        return render(request, "main/profile.html", {"context":instance} )
 
 
 class SearchUserView(APIView):
