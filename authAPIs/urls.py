@@ -8,6 +8,8 @@ from django.urls import re_path as url
 from authAPIs.views import UserRegistrationView,UserLoginView
 from authAPIs.views import SendEmailOTPView,VerifyEmailOTPView
 from authAPIs.views import ChangePasswordView,ForgotPasswordView
+from authAPIs.views import BannersView,BooksListView
+from authAPIs.views import ProfileDetailView,ProfileUpdateView
 from rest_framework_simplejwt.views import ( TokenObtainPairView,TokenRefreshView,)
 from django.urls import path, include
 
@@ -20,6 +22,10 @@ urlpatterns = [
     url(r'^verify/email/otp', VerifyEmailOTPView.as_view()),
     url(r'^change/password', ChangePasswordView.as_view()),
     url(r'^forgot/password', ForgotPasswordView.as_view()),
+    url(r'^banners', BannersView.as_view()),
+    url(r'^books/list', BooksListView.as_view()),
+    url(r'^profile/detail', ProfileDetailView.as_view()),
+    url(r'^profile/update', ProfileUpdateView.as_view()),
     ]
 
 

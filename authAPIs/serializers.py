@@ -11,6 +11,8 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
 from users.models import Users
+from authAPIs.models import Banners
+from bookManagement.models import Book
 
 class CustomerRegistrationSerializer(serializers.ModelSerializer):
      
@@ -28,3 +30,18 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
             gender=validated_data['gender'],
         )
         return user
+
+class BannersListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Banners 
+        fields=('bannerId','bannerImage','IsActive','createdAt')
+
+class BooksListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Book 
+        fields=('id','name','bookCover','description','file','author','isAvailable','price','authorDescription')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Users 
+        fields=('id','fullName','email','mobileNo','gender','isActive','image')
