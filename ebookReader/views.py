@@ -1,7 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from users.models import Users
+from bookManagement.models import Book
+from users.views import loginDecorator
 
 # Create your views here.
-@login_required(login_url='/users/login/')
+@loginDecorator
 def index(request):
-    return render(request, "base/base.html", {})
+    totalUsers = Users.objects.filter(isDeleted=False).count()
+    totalBooks = Book.objects.all().count()
+    return render(request, "main/dashboard.html", context={"totalUsers": totalUsers, "totalBooks": totalBooks})

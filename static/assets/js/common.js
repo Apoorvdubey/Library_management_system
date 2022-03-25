@@ -6,7 +6,36 @@ var path = window.location.pathname
    if (path === "/users/listUsers/id/"){
        document.getElementById("userManagement").parentElement.classList.add('active')
    }
+   if (path === "/users/listUsers/fullName/"){
+    document.getElementById("userManagement").parentElement.classList.add('active')
+}   
+    if (path === "/users/listUsers/email/"){
+    document.getElementById("userManagement").parentElement.classList.add('active')
+}
+    if (path === "/users/listUsers/gender/"){
+    document.getElementById("userManagement").parentElement.classList.add('active')
+}
+    if (path === "/users/listUsers/createdAt/"){
+    document.getElementById("userManagement").parentElement.classList.add('active')
+}
+    if (path === "/users/addUsers/"){
+    document.getElementById("userManagement").parentElement.classList.add('active')
+}
 
    if (path === "/bookManagement/listBooks/id/"){
        document.getElementById("bookManagement").parentElement.classList.add('active')
    }
+   if (path === "/bookManagement/listBooks/name/"){
+    document.getElementById("bookManagement").parentElement.classList.add('active')
+}
+    if (path === "/bookManagement/listBooks/author/"){
+    document.getElementById("bookManagement").parentElement.classList.add('active')
+}
+    if (path === "/bookManagement/listBooks/price/"){
+    document.getElementById("bookManagement").parentElement.classList.add('active')
+}
+    if (path === "/bookManagement/addBooks/"){
+    document.getElementById("bookManagement").parentElement.classList.add('active')
+}
+
+
