@@ -8,7 +8,8 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView,RetrieveAPIView,UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from authAPIs.serializers import CustomerRegistrationSerializer
+from authAPIs.serializers import CustomerRegistrationSerializer,BannersListSerializer
+from authAPIs.serializers import BooksListSerializer,UserSerializer
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
@@ -31,6 +32,8 @@ import requests
 from django.contrib.auth.models import Group,Permission
 from django.db import connection
 from users.models import Users
+from authAPIs.models import Banners
+from bookManagement.models import Book
 # Create your views here.
 
 class UserRegistrationView(CreateAPIView):
@@ -490,4 +493,206 @@ class ForgotPasswordView(generics.RetrieveAPIView):
            },
            "response": None
           }
-          return Response(response, status=status_code) 
+          return Response(response, status=status_code)
+
+class BannersView(generics.RetrieveAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+       try:
+          banners = Banners.objects.all()
+          banners_serializer = BannersListSerializer(banners,many=True)
+          response = {
+            "error": None,
+            "response": {
+                   "data": {
+                        'banners' : banners_serializer.data
+                   },
+              "message": {
+                'success' : True,
+                "successCode": 21,
+                "statusCode": status.HTTP_200_OK,
+                "successMessage": "Banners fetched successfully"
+              }
+            }
+          }
+          status_code = status.HTTP_200_OK
+          return Response(response, status=status_code)    
+       except Exception as e:
+           status_code = status.HTTP_400_BAD_REQUEST
+           response =  {
+            "error": {
+              "errorCode": 22,
+              "statusCode": status.HTTP_400_BAD_REQUEST,
+              "errorMessage": str(e)
+            },
+            "response": None
+           }
+           return Response(response, status=status_code)   
+
+class BooksListView(generics.RetrieveAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+       try:
+          books = Book.objects.all()
+          books_serializer = BooksListSerializer(books,many=True)
+          response = {
+            "error": None,
+            "response": {
+                   "data": {
+                        'booksList' : books_serializer.data
+                   },
+              "message": {
+                'success' : True,
+                "successCode": 23,
+                "statusCode": status.HTTP_200_OK,
+                "successMessage": "Books fetched successfully"
+              }
+            }
+          }
+          status_code = status.HTTP_200_OK
+          return Response(response, status=status_code)    
+       except Exception as e:
+           status_code = status.HTTP_400_BAD_REQUEST
+           response =  {
+            "error": {
+              "errorCode": 24,
+              "statusCode": status.HTTP_400_BAD_REQUEST,
+              "errorMessage": str(e)
+            },
+            "response": None
+           }
+           return Response(response, status=status_code)   
+
+class ProfileDetailView(generics.RetrieveAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+       try:
+          userId = request.user.id
+          user_detail = Users.objects.filter(pk=userId).first()  
+          response = {
+            "error": None,
+            "response": {
+                   "data": {
+                        'fullName' : user_detail.fullName,
+                        'email' : user_detail.email,
+                        'mobileNo' : user_detail.mobileNo,
+                        'gender' : user_detail.gender,
+                        'isActive' : user_detail.isActive,
+                        'profileImage' : user_detail.image
+                   },
+              "message": {
+                'success' : True,
+                "successCode": 25,
+                "statusCode": status.HTTP_200_OK,
+                "successMessage": "User profile detail fetched successfully"
+              }
+            }
+          }
+          status_code = status.HTTP_200_OK
+          return Response(response, status=status_code)    
+       except Exception as e:
+           status_code = status.HTTP_400_BAD_REQUEST
+           response =  {
+            "error": {
+              "errorCode": 26,
+              "statusCode": status.HTTP_400_BAD_REQUEST,
+              "errorMessage": str(e)
+            },
+            "response": None
+           }
+           return Response(response, status=status_code)
+
+class ProfileUpdateView(generics.UpdateAPIView):
+    
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        try:
+           userId = request.user.id  
+           request_data = JSONParser().parse(request)
+           mobileNo = request_data['mobileNo']
+           email = request_data['email']
+           json_request = json.dumps(request_data)
+           dictionary = json.loads(json_request) 
+           check_user_if_exists = Users.objects.filter(pk=userId).first()
+           if check_user_if_exists is None:
+                  response = {
+                   "error": {
+                     "errorCode": 27,
+                     "statusCode": status.HTTP_400_BAD_REQUEST,
+                     "errorMessage": "Invalid user!"
+                   },
+                   "response": None
+                  }
+                  status_code = status.HTTP_200_OK
+                  return Response(response, status=status_code)
+
+           check_mobile_no_if_exists = Users.objects.filter(mobileNo=mobileNo).first()
+           if check_mobile_no_if_exists is not None:
+                response = {
+                 "error": {
+                   "errorCode": 1,
+                   "statusCode": status.HTTP_400_BAD_REQUEST,
+                   "errorMessage": "mobileNo already exists!"
+                 },
+                 "response": None
+                }
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response(response, status=status_code)
+
+           check_email_if_exists = Users.objects.filter(email=email).first()
+           if check_email_if_exists is not None:
+                response = {
+                 "error": {
+                   "errorCode": 2,
+                   "statusCode": status.HTTP_400_BAD_REQUEST,
+                   "errorMessage": "email already exists!"
+                 },
+                 "response": None
+                }
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response(response, status=status_code)
+           
+           usr = Users.objects.filter(pk=userId)
+           if "fullName" in dictionary:
+              usr.update(fullName=request_data['fullName'])
+           if "email" in dictionary:
+              usr.update(email=request_data['email'])
+           if "mobileNo" in dictionary:
+              usr.update(mobileNo=request_data['mobileNo'])
+           if "gender" in dictionary:
+              usr.update(gender=request_data['gender'])
+           if "image" in dictionary:
+              usr.update(image=request_data['image'])              
+
+           user_detail = UserSerializer(usr,many=True)
+           response = {
+             "error": None,
+             "response": {
+                    "data": {
+                         'updatedUserDetail' : user_detail.data
+                    },
+               "message": {
+                 'success' : True,
+                 "successCode": 28,
+                 "statusCode": status.HTTP_200_OK,
+                 "successMessage": "User profile updated successfully"
+               }
+             }
+           }
+           status_code = status.HTTP_200_OK
+           return Response(response, status=status_code)
+
+        except Exception as e:
+            status_code = status.HTTP_400_BAD_REQUEST
+            response =  {
+             "error": {
+               "errorCode": 29,
+               "statusCode": status.HTTP_400_BAD_REQUEST,
+               "errorMessage": str(e)
+             },
+             "response": None
+            }
+        return Response(response, status=status_code)   
