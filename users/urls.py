@@ -12,18 +12,11 @@ urlpatterns = [
     path("searchUsers/", views.SearchUserView.as_view(), name="searchUsers"),
     path("createUser/", views.CreateUserView.as_view(), name="createUser"),
     # path("blockUnblockUser/<str:pk>/", views.BlockUnblockUsersView.as_view(), name="blockUnblockUser"),
-
     path("listUsers/<str:order>/", views.user_list, name="listUsers"),
     path("addUsers/", views.add_user, name="addUsers"),
     path("deleteUser/<str:pk>/", views.delete_user, name="deleteUser"),
-
     path("editAdminProfile/", views.profile_view, name="editAdminProfile"),
-
     path("searchUser/", views.search_user, name="searchUser"),
-
     path('blockUnblockUser/<str:pk>/', views.block_unblock_user, name="blockUnblockUser"),
-
     path("editUser/<str:pk>/", views.edit_user, name="editUser"),
-
-
 ]
