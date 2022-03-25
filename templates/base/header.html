@@ -12,10 +12,12 @@
             <!-- Search -->
             <div class="navbar-nav align-items-center">
               <div class="nav-item d-flex align-items-center">
-               {% if request.resolver_match.url_name == 'listUsers' or request.resolver_match.url_name == 'searchUser' %}
+               {% if request.resolver_match.url_name == 'listUsers' or request.resolver_match.url_name == 'searchUser' or request.resolver_match.url_name == 'editUser' or request.resolver_match.url_name == 'addUsers' %}
                Home / User Management
-               {% elif request.resolver_match.url_name == 'listBooks' %}
+               {% elif request.resolver_match.url_name == 'listBooks' or request.resolver_match.url_name == 'addBooks' or request.resolver_match.url_name == 'editBook' %}
                Home / Book Management
+               {% elif request.resolver_match.url_name == 'editAdminProfile' %}
+               Home / Profile Management
                {% else %}
                Home / Dashboard
                {% endif %}
@@ -31,7 +33,7 @@
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="{% static 'assets/img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle" />
+                    <img src="{{request.user.image}}" alt class="w-px-40  rounded-circle" />
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -39,8 +41,8 @@
                     <a class="dropdown-item" href="#">
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
-                          <div class="avatar avatar-online">
-                            <img src="{% static 'assets/img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle" />
+                          <div class="avatar avatar-online zoom-img">
+                            <img src="{{request.user.image}}" alt class="w-px-40  rounded-circle" />
                           </div>
                         </div>
                         <div class="flex-grow-1">
@@ -54,7 +56,7 @@
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="/users/profile/">
+                    <a class="dropdown-item" href="/users/editAdminProfile/">
                       <i class="bx bx-user me-2"></i>
                       <span class="align-middle">My Profile</span>
                     </a>
