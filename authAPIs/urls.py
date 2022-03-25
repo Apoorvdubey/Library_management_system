@@ -4,7 +4,7 @@
 Created on 24th march 2022
 @author: sakib ali
 """
-from django.conf.urls import url
+from django.urls import re_path as url
 from authAPIs.views import UserRegistrationView,UserLoginView
 from authAPIs.views import SendEmailOTPView,VerifyEmailOTPView
 from authAPIs.views import ChangePasswordView,ForgotPasswordView

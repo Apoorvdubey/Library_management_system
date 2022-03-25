@@ -7,7 +7,6 @@ Created on 24th march 2022
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
-from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.hashers import make_password
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status

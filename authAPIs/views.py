@@ -11,13 +11,11 @@ from rest_framework.permissions import AllowAny
 from authAPIs.serializers import CustomerRegistrationSerializer
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 import jwt, datetime
 from django.contrib.auth.models import update_last_login
-from rest_framework_jwt.settings import api_settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -340,7 +338,6 @@ class VerifyEmailOTPView(generics.RetrieveAPIView):
 class ChangePasswordView(generics.RetrieveAPIView):
 
     permission_classes = (IsAuthenticated,)
-    authentication_class = JSONWebTokenAuthentication
     def post(self, request):
        try:  
            userId = request.user.id
