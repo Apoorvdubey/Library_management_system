@@ -21,6 +21,7 @@ from django.core.paginator import Paginator
 from users import serializers
 
 
+loginDecorator = login_required(login_url='/users/login/')
 # Create your views here.
 
 
@@ -43,21 +44,17 @@ def login_admin(request):
     if request.method=="POST":
         email = request.POST['email-username']
         password = request.POST['password']
-        print(email, password)
         user = authenticate(request, email=email, password=password)
 
         if user:
             if user.userType=="admin":
                 login(request, user)
-                print("1 is working")
                 return redirect("/")
             else:
                 messages.warning(request, 'Not authorised to perform this task')
-                print("2 is working")
                 return redirect("login")
         else:
             messages.warning(request, 'User does not exists')
-            print("3 is working")
             return redirect('login')
 
     else:
@@ -89,7 +86,7 @@ class CreateUserView(APIView):
             return Response({"response_message":"Missing parameters"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def add_user(request):
     if request.method=="POST":
         email = request.POST.get('email')
@@ -121,8 +118,7 @@ class UsersListView(APIView, LimitOffsetPagination):
         return Response({"response_message":"Data fetched successfully", "count": instance.count(), "data":serializers.data}, status=status.HTTP_200_OK)
 
 
-
-@login_required(login_url='/users/login/')
+@loginDecorator
 def user_list(request, order):
 
     if order=="id" or order=="createdAt":
@@ -131,11 +127,8 @@ def user_list(request, order):
         instance = Users.objects.filter(userType='user').order_by(order)
 
     p = Paginator(instance,4)
-    
     page =  request.GET.get('page')
-    
     venues = p.get_page(page)
-    
     nums = "a" * venues.paginator.num_pages
 
     return render(request, "userManagement/index.html", {"venues": venues, "nums": nums})
@@ -156,7 +149,7 @@ class DeleteUsersView(APIView):
             return Response({"response_message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def delete_user(request, pk):
 
     instance = Users.objects.filter(pk=pk)
@@ -180,7 +173,7 @@ class EditUsersView(APIView):
             return Response({"response_message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def edit_user(request, pk):
     if request.method == "POST":
         fullName = request.POST.get('fullName')
@@ -220,7 +213,7 @@ class BlockUnblockUsersView(APIView):
             return Response({"response_message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def block_unblock_user(request, pk):
     instance = Users.objects.filter(pk=pk)
     if instance[0].isActive==True:
@@ -231,7 +224,7 @@ def block_unblock_user(request, pk):
         return redirect("/users/listUsers/id/")
     
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def profile_view(request):
     if request.method == "POST":
         fullName = request.POST.get('fullName')
@@ -267,9 +260,8 @@ class SearchUserView(APIView):
         
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def search_user(request):
     user_name = request.GET.get('search')
     instance = Users.objects.filter(fullName__icontains=user_name)
-    print("instance ", instance)
     return render(request, "userManagement/index.html" ,{"venues": instance, "nums": 5})

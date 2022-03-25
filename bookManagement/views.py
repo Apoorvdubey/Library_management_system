@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from users.views import s3_helper
+from users.views import s3_helper, loginDecorator
 # Create your views here.
 
 
@@ -24,7 +24,7 @@ class ListBookView(APIView):
 
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def book_list(request, order):
 
     instance = Book.objects.all().order_by(order)
@@ -39,7 +39,7 @@ def book_list(request, order):
     return render(request, "bookManagement/index.html", {"books": books, "nums": nums})
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def add_book(request):
     
     if request.method == "POST":
@@ -59,21 +59,21 @@ def add_book(request):
         return render(request, "bookManagement/add.html", {})
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def delete_book(request, pk):
     instance = Book.objects.filter(pk=pk)
     instance.delete()
     return redirect("/bookManagement/listBooks/id/")
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def search_book(request):
     book_name = request.GET.get('search')
     instance = Book.objects.filter(name__icontains=book_name)
     return render(request, "bookManagement/index.html", {"books": instance, "nums":5})
 
 
-@login_required(login_url='/users/login/')
+@loginDecorator
 def book_available_unavailable(request, pk):
     instance = Book.objects.filter(pk=pk)
     if instance[0].isAvailable==True:
@@ -84,6 +84,7 @@ def book_available_unavailable(request, pk):
         return redirect("/bookManagement/listBooks/id/")
 
 
+@loginDecorator
 def edit_book(request, pk):
     if request.method == "POST":
         name = request.POST.get('name')
