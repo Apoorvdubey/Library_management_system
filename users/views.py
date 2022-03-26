@@ -96,8 +96,17 @@ def add_user(request):
         image = s3_helper(request.FILES.get('image'))
         password = make_password(request.POST.get('password'))
 
-        Users.objects.create(email=email, mobileNo=mobileNo, gender=gender, image=image,  fullName=fullName, password=password)
-        return redirect("/users/listUsers/id/")
+        check_email = Users.objects.filter(email=email).first()
+        check_mobile_no = Users.objects.filter(mobileNo=mobileNo).first()
+        if check_email:
+            messages.warning(request, "User with this email is already registered")
+            return redirect("/users/addUsers/")
+        elif check_mobile_no:
+            messages.warning(request, "User with this mobile number is already registered")
+            return redirect("/users/addUsers/")
+        else:
+            Users.objects.create(email=email, mobileNo=mobileNo, gender=gender, image=image,  fullName=fullName, password=password)
+            return redirect("/users/listUsers/id/")
     else:
         return render(request, "userManagement/add.html", {})
 
@@ -187,8 +196,19 @@ def edit_user(request, pk):
             image = currentImage
         else:
             image = s3_helper(image)
-        instance.update(fullName=fullName, mobileNo=mobileNo, image=image, gender=gender)
-        return redirect("/users/listUsers/id/")
+
+        if mobileNo != instance[0].mobileNo: 
+            check_mobile_no = Users.objects.filter(mobileNo=mobileNo).first()
+            print(check_mobile_no)
+            if check_mobile_no:
+                messages.warning(request, "User with this mobile number is already registered")
+                return redirect("/users/editUser/" + pk + "/")
+            else:
+                instance.update(fullName=fullName, mobileNo=mobileNo, image=image, gender=gender)
+                return redirect("/users/listUsers/id/")
+        else:
+            instance.update(fullName=fullName, mobileNo=mobileNo, image=image, gender=gender)
+            return redirect("/users/listUsers/id/")
     else:
         instance = Users.objects.get(pk=pk)
         return render(request, "userManagement/edit.html", {"context":instance})

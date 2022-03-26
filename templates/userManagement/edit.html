@@ -10,6 +10,13 @@
   <link rel="stylesheet" href="{% static 'assets/vendor/css/common.css' %}" />
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
+        {% if messages %}
+    {% for message in messages%}
+    <div class="alert alert-{{message.tags}} text-center" id='hidemessage' role="alert">
+      {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
   
         <div class="col-xxl">
             <div class="card mb-4">
@@ -58,7 +65,7 @@
                                         <div class="input-group input-group-merge">
                                             <span class="input-group-text"><i
                                                     class="bx bx-envelope"></i></span>
-                                            <input type="text" id="basic-icon-default-email" name="email" required readonly
+                                            <input type="email" id="basic-icon-default-email" name="email" required readonly
                                                 class="form-control" placeholder="john.doe" value="{{context.email}}"
                                                 aria-label="john.doe"
                                                 aria-describedby="basic-icon-default-email2">
