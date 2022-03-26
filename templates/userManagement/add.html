@@ -9,6 +9,13 @@
 
 <div class="container-xxl flex-grow-1 container-p-y">
   <div class="row">
+    {% if messages %}
+    {% for message in messages%}
+    <div class="alert alert-{{message.tags}} text-center" id='hidemessage' role="alert">
+      {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
 
       <div class="col-xxl">
           <div class="card mb-4">
@@ -42,7 +49,7 @@
                                           <span id="basic-icon-default-fullname2"
                                               class="input-group-text"><i
                                                   class="bx bx-user"></i></span>
-                                          <input type="text" class="form-control" name="fullName" pattern="[A-Za-z]"
+                                          <input type="text" class="form-control" name="fullName"
                                               id="basic-icon-default-fullname" required
                                               placeholder="John Doe" aria-label="John Doe"
                                               aria-describedby="basic-icon-default-fullname2">
@@ -57,7 +64,7 @@
                                       <div class="input-group input-group-merge">
                                           <span class="input-group-text"><i
                                                   class="bx bx-envelope"></i></span>
-                                          <input type="text" id="basic-icon-default-email" name="email"
+                                          <input type="email" id="basic-icon-default-email" name="email"
                                               class="form-control" placeholder="john.doe"
                                               aria-label="john.doe" required
                                               aria-describedby="basic-icon-default-email2">
