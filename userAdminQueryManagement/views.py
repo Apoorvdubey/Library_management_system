@@ -24,4 +24,6 @@ def viewQuery(request, pk):
     if request.method=="POST":
         pass
     else:
-        return render(request, "userAdminQueries/view.html",{})
+        instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)[0]
+        print(">>>>>>>", instance)
+        return render(request, "userAdminQueries/view.html",{"context":instance})
