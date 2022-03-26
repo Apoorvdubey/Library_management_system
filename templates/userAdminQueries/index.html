@@ -56,11 +56,11 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Date Received</th>
                         <th>Query ID</th>
+                        <th>Date Received</th>
                         <!-- <th>Product</th> -->
                         <!-- <th>Issues</th> -->
-                        <!-- <th>Complaint</th> -->
+                        <th>Submitted By</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -68,14 +68,22 @@
                     <tbody class="table-border-bottom-0">
                         {% for query in queries %}
                       <tr>
+                        <td>{{query.userAdminQueryId}}</td>
                         <td>
                            {{query.createdAt}}
                         </td>
-                        <td>{{query.userAdminQueryId}}</td>
                         <!-- <td>Test Book 1</td> -->
-                        <!-- <td>Wrong Price</td> -->
+                        <td>{{query.userId.fullName}}</td>
                         <!-- <td>this is test Complaint</td> -->
+                        {% if query.queryStatus == "open" %}
+                        <td><span class="badge bg-label-info me-1">{{query.queryStatus}}</span></td>
+                        {% elif query.queryStatus == "inprogress" %}
                         <td><span class="badge bg-label-success me-1">{{query.queryStatus}}</span></td>
+                        {% elif query.queryStatus == "closed" %}
+                        <td><span class="badge bg-secondary me-1">{{query.queryStatus}}</span></td>
+                        {% else %}
+                        <td><span class="badge bg-label-danger me-1">{{query.queryStatus}}</span></td>
+                        {% endif %}
                         <td>
                             <button type="submit" class="btn btn-primary btn-sm"><a href="/userAdminQueryManagement/viewQuery/{{query.userAdminQueryId}}/"><i class="fa fa-eye text-white" aria-hidden="true"></i></a>
                             </button>

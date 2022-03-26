@@ -24,22 +24,19 @@
 
                                         <div class="row">
                                             <div class="col-lg-1">
-                                                <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle w-100">
+                                                <img src="{{context.userAdminQueryId.userId.image}}" alt="Avatar" class="rounded-circle w-100">
                                             </div>
                                             <div class="col-lg-3">
-                                                <h6 class="m-0">Jhon Lord</h6>
+                                                <h6 class="m-0">{{context.userAdminQueryId.userId.fullName}}</h6>
                                                 <p class="m-0">12/1/2022</p>
                                             </div>
-                                            <div class="col-lg-8" style="text-align: right;">
+                                            <!-- <div class="col-lg-8" style="text-align: right;">
                                                 <h6 class="m-0">Issues</h6>
                                                 <p class="m-0">Wrong Price</p>
-                                            </div>
+                                            </div> -->
                                             <div class="col-lg-12" style="text-align: justify;">
                                                
-                                                <p class="mt-3">Simple Open Source icons carefully crafted for designers & developers
-                                                    Simple Open Source icons carefully crafted for designers & developers
-                                                    Simple Open Source icons carefully crafted for designers & developers
-                                                    Simple Open Source icons carefully crafted for designers & developers
+                                                <p class="mt-3">{{context.message}}
                                                 </p>
                                             </div>
                                             <div class="col-lg-12" style="text-align: justify;">
