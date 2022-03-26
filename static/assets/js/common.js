@@ -37,5 +37,12 @@ var path = window.location.pathname
     if (path === "/bookManagement/addBooks/"){
     document.getElementById("bookManagement").parentElement.classList.add('active')
 }
+    if (path === '/userAdminQueryManagement/listQueries/createdAt/'){
+    document.getElementById("userAdminQueryManagement").parentElement.classList.add('active')
+}
+if (path === '/userAdminQueryManagement/listQueries/queryStatus/'){
+    document.getElementById("userAdminQueryManagement").parentElement.classList.add('active')
+}
+
 
 
