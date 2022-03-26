@@ -1,0 +1,146 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .layout-navbar.navbar-detached.container-xxl{
+    max-width: 100%;
+  }
+  .wi-10{
+    width: 10%;
+  }
+</style>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+     
+      <div class="col-lg-12 col-md-4 order-1">
+        <div class="row">
+         <div class="col-lg-12 mb-4">
+            <div class="card">
+                <h5 class="card-header">
+                  <div class="row">
+                    <div class="col-lg-7">
+                      User Queries
+                    </div>
+                    <div class="col-lg-2 mt-2" style="text-align: right;">
+                      <!-- <i class='bx bx-filter'></i> -->
+                      <!-- <i class='bx bx-sort' ></i> -->
+                    </div>
+                    <div class="col-lg-3" style="text-align: right;">
+                        <select id="language" class="select2 form-select" onchange="javascript:handleSelect(this)">
+                        
+                            {% if request.path == '/users/listUsers/queryStatus/' %}
+                            <option value="" disabled>---------------</option>
+                            <option value="queryStatus" selected>Sort By Status</option>
+                            <option value="createdAt">Sort By Time </option>
+    
+                            
+                            {% elif request.path == "/users/listUsers/createdAt/" %}
+                            
+                            <option value="" disabled>---------------</option>
+                            <option value="queryStatus">Sort By Status</option>
+                            <option value="createdAt" selected>Sort By Time </option>
+    
+                            {% else %}
+                            <option value="" disabled selected>---------------</option>
+                            <option value="queryStatus" >Sort By Status</option>
+                            <option value="createdAt">Sort By Time </option>
+                            {% endif %}
+    
+                           
+                          </select>
+                    </div>
+                  </div>
+                  </h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Date Received</th>
+                        <th>Query ID</th>
+                        <!-- <th>Product</th> -->
+                        <!-- <th>Issues</th> -->
+                        <!-- <th>Complaint</th> -->
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        {% for query in queries %}
+                      <tr>
+                        <td>
+                           {{query.createdAt}}
+                        </td>
+                        <td>{{query.userAdminQueryId}}</td>
+                        <!-- <td>Test Book 1</td> -->
+                        <!-- <td>Wrong Price</td> -->
+                        <!-- <td>this is test Complaint</td> -->
+                        <td><span class="badge bg-label-success me-1">{{query.queryStatus}}</span></td>
+                        <td>
+                            <button type="submit" class="btn btn-primary btn-sm"><a href="/userAdminQueryManagement/viewQuery/{{query.userAdminQueryId}}/"><i class="fa fa-eye text-white" aria-hidden="true"></i></a>
+                            </button>
+                            
+                        </td>
+                      </tr>
+                      
+                    {% endfor %}
+                     
+                    </tbody>
+                  </table>
+                </div>
+
+
+                <div class="demo-inline-spacing mt-4">
+                  <nav aria-label="Page navigation">
+
+                    <ul class="pagination justify-content-center">
+    
+                        {% if queries.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+                          <li class="page-item"><a class="page-link" href="?page={{ queries.previous_page_number }}">Previous</a></li>
+                            
+                        {% endif %}
+                        
+                        
+                        <li class="page-item disabled"><a href="#" class="page-link">Page {{ queries.number }} of {{ queries.paginator.num_pages }}</a></li>
+                        
+                        
+                        {% if queries.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ queries.next_page_number }}">Next</a></li>
+                        
+                            <li class="page-item"><a class="page-link" href="?page={{ queries.paginator.num_pages }}">Last &raquo</a></li>
+                        
+                        {% endif %}
+                        
+                         </ul>
+                  </nav>
+                 
+                </div>
+
+
+
+
+              </div>
+              </div>
+
+
+
+        </div>
+      </div>
+    
+    </div>
+   </div>
+   <script type="text/javascript">
+    function handleSelect(elm)
+    {
+      if(elm.value=='queryStatus'){
+      document.location.href = "/userAdminQueryManagement/listQueries/queryStatus/";
+      }
+      if(elm.value=="createdAt"){
+      document.location.href = "/userAdminQueryManagement/listQueries/createdAt/";
+      }
+      
+    }
+  </script>
+
+   {% endblock %}

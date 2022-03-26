@@ -18,6 +18,8 @@
                Home / Book Management
                {% elif request.resolver_match.url_name == 'editAdminProfile' %}
                Home / Profile Management
+               {% elif request.resolver_match.url_name == 'listQueries' %}
+               Home / Query Management
                {% else %}
                Home / Dashboard
                {% endif %}
