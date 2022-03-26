@@ -10,7 +10,8 @@ from authAPIs.views import SendEmailOTPView,VerifyEmailOTPView
 from authAPIs.views import ChangePasswordView,ForgotPasswordView
 from authAPIs.views import BannersView,BooksListView
 from authAPIs.views import ProfileDetailView,ProfileUpdateView
-from authAPIs.views import ChangeBookmarkStatusView
+from authAPIs.views import ChangeBookmarkStatusView,ChangeBookReadingStatusView
+from authAPIs.views import DonateMoneyView
 from rest_framework_simplejwt.views import ( TokenObtainPairView,TokenRefreshView,)
 from django.urls import path, include
 
@@ -28,6 +29,8 @@ urlpatterns = [
     url(r'^profile/detail', ProfileDetailView.as_view()),
     url(r'^profile/update', ProfileUpdateView.as_view()),
     url(r'^change/bookmark/status', ChangeBookmarkStatusView.as_view()),
+    url(r'^change/book/reading/status', ChangeBookReadingStatusView.as_view()),
+    url(r'^donate/money', DonateMoneyView.as_view()),
     ]
 
 

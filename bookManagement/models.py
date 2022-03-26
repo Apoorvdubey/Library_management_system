@@ -33,4 +33,15 @@ class UserBookmarkBook(models.Model):
     updatedAt = models.DateTimeField(default=now, editable=False)
     class Meta:
         db_table='user_bookmark_books'
+
+class UserBookReadingStatus(models.Model):
+  
+    bookReadingStatusId = models.AutoField(primary_key=True)
+    bookReadingStatus = models.BooleanField(default=False)
+    userId = models.ForeignKey(Users, on_delete=models.CASCADE, default=None, blank=True, related_name='readingUserDetail', db_column='userId')
+    bookId = models.ForeignKey(Book, on_delete=models.CASCADE, default=None, blank=True, related_name='readingBookDetail', db_column='bookId')
+    createdAt = models.DateTimeField(default=now, editable=False)
+    updatedAt = models.DateTimeField(default=now, editable=False)
+    class Meta:
+        db_table='user_book_reading_status'
     

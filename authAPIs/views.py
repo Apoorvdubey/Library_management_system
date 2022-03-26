@@ -32,8 +32,8 @@ import requests
 from django.contrib.auth.models import Group,Permission
 from django.db import connection
 from users.models import Users
-from authAPIs.models import Banners
-from bookManagement.models import Book,UserBookmarkBook
+from authAPIs.models import Banners,UserDonations
+from bookManagement.models import Book,UserBookmarkBook,UserBookReadingStatus
 # Create your views here.
 
 class UserRegistrationView(CreateAPIView):
@@ -705,6 +705,7 @@ class ChangeBookmarkStatusView(generics.UpdateAPIView):
            request_data = JSONParser().parse(request)
            bookId = request_data['bookId']
            bookmarkStatus = request_data['bookmarkStatus']
+           userId = request.user.id
            
            check_book_if_exists = Book.objects.filter(pk=bookId).first()
            if check_book_if_exists is None:
@@ -716,29 +717,42 @@ class ChangeBookmarkStatusView(generics.UpdateAPIView):
                    },
                    "response": None
                   }
-                  status_code = status.HTTP_200_OK
+                  status_code = status.HTTP_400_BAD_REQUEST
                   return Response(response, status=status_code)
 
            if bookmarkStatus not in [0,1]:
               response = {
                "error": {
                  "errorCode": 31,
-                 "statusCode": status.HTTP_200_OK,
-                 "errorMessage": "bookmarkStatus should be 1 for active or 3 for deactive"
+                 "statusCode": status.HTTP_400_BAD_REQUEST,
+                 "errorMessage": "bookmarkStatus should be 1 for active or 0 for deactive"
                },
                "response": None
               }
-              status_code = status.HTTP_200_OK
+              status_code = status.HTTP_400_BAD_REQUEST
               return Response(response, status=status_code)
-
-           saveBookmark = UserBookmarkBook()
-           saveBookmark.bookmarkStatus = bookmarkStatus
-           saveBookmark.bookId = message
-           saveBookmark.userId = booked_car.customerId.customerId
-           saveBookmark.createdAt = 1
-           saveBookmark.updatedAt = 1
-           saveBookmark.save()
+           
+           user_detail = Users.objects.filter(pk=userId).first()
+           bookId = Q(bookId__id=bookId)
+           userId = Q(userId__id=userId)
+           user_bookmarked_book = UserBookmarkBook.objects.filter(bookId & userId).first()
           
+           if user_bookmarked_book is None:
+             saveBookmark = UserBookmarkBook()
+             saveBookmark.bookmarkStatus = bookmarkStatus
+             saveBookmark.bookId = check_book_if_exists
+             saveBookmark.userId = user_detail
+             saveBookmark.createdAt = datetime.datetime.now()
+             saveBookmark.updatedAt = datetime.datetime.now()
+             saveBookmark.save()
+           else:
+             UserBookmarkBook.objects.filter(bookId & userId).update(bookmarkStatus=bookmarkStatus)
+
+           if bookmarkStatus==1:
+            msg =  "Book has been bookmarked successfully."
+           else:
+            msg =  "Book has been unbookmarked successfully."
+
            response = {
              "error": None,
              "response": {
@@ -757,6 +771,151 @@ class ChangeBookmarkStatusView(generics.UpdateAPIView):
             response =  {
              "error": {
                "errorCode": 33,
+               "statusCode": status.HTTP_400_BAD_REQUEST,
+               "errorMessage": str(e)
+             },
+             "response": None
+            }
+        return Response(response, status=status_code)
+
+class ChangeBookReadingStatusView(generics.UpdateAPIView):
+    
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        try:
+           request_data = JSONParser().parse(request)
+           bookId = request_data['bookId']
+           bookReadingStatus = request_data['bookReadingStatus']
+           userId = request.user.id
+           
+           check_book_if_exists = Book.objects.filter(pk=bookId).first()
+           if check_book_if_exists is None:
+                  response = {
+                   "error": {
+                     "errorCode": 30,
+                     "statusCode": status.HTTP_400_BAD_REQUEST,
+                     "errorMessage": "Invalid bookId!"
+                   },
+                   "response": None
+                  }
+                  status_code = status.HTTP_400_BAD_REQUEST
+                  return Response(response, status=status_code)
+
+           if bookReadingStatus not in [0,1]:
+              response = {
+               "error": {
+                 "errorCode": 34,
+                 "statusCode": status.HTTP_400_BAD_REQUEST,
+                 "errorMessage": "bookReadingStatus should be 1 for active or 0 for deactive"
+               },
+               "response": None
+              }
+              status_code = status.HTTP_400_BAD_REQUEST
+              return Response(response, status=status_code)
+           
+           user_detail = Users.objects.filter(pk=userId).first()
+           bookId = Q(bookId__id=bookId)
+           userId = Q(userId__id=userId)
+           user_book_reading_status = UserBookReadingStatus.objects.filter(bookId & userId).first()
+          
+           if user_book_reading_status is None:
+             saveBookReadingStatus = UserBookReadingStatus()
+             saveBookReadingStatus.bookReadingStatus = bookReadingStatus
+             saveBookReadingStatus.bookId = check_book_if_exists
+             saveBookReadingStatus.userId = user_detail
+             saveBookReadingStatus.createdAt = datetime.datetime.now()
+             saveBookReadingStatus.updatedAt = datetime.datetime.now()
+             saveBookReadingStatus.save()
+           else:
+             UserBookReadingStatus.objects.filter(bookId & userId).update(bookReadingStatus=bookReadingStatus)
+
+           if bookReadingStatus==1:
+            msg =  "Book status changed to read successfully."
+           else:
+            msg =  "Book status changed to unread successfully."
+
+           response = {
+             "error": None,
+             "response": {
+               "message": {
+                 'success' : True,
+                 "successCode": 35,
+                 "statusCode": status.HTTP_200_OK,
+                 "successMessage": msg
+               }
+             }
+           }
+           status_code = status.HTTP_200_OK
+           return Response(response, status=status_code)
+        except Exception as e:
+            status_code = status.HTTP_400_BAD_REQUEST
+            response =  {
+             "error": {
+               "errorCode": 36,
+               "statusCode": status.HTTP_400_BAD_REQUEST,
+               "errorMessage": str(e)
+             },
+             "response": None
+            }
+        return Response(response, status=status_code)
+
+class DonateMoneyView(generics.UpdateAPIView):
+    
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        try:
+           request_data = JSONParser().parse(request)
+           transactionId = request_data['transactionId']
+           payerId = request_data['payerId']
+           payerEmail = request_data['payerEmail']
+           paymentStatus = request_data['paymentStatus']
+           transactionMode = request_data['transactionMode']
+           paymentAmount = request_data['paymentAmount']
+           userId = request.user.id
+
+           if paymentStatus not in [1,2,3,4]:
+              response = {
+               "error": {
+                 "errorCode": 37,
+                 "statusCode": status.HTTP_400_BAD_REQUEST,
+                 "errorMessage": "paymentStatus should be 1 for pending,2 for completed,3 for canceled or 4 for failed"
+               },
+               "response": None
+              }
+              status_code = status.HTTP_400_BAD_REQUEST
+              return Response(response, status=status_code)
+         
+           user_detail = Users.objects.filter(pk=userId).first()
+           saveDonationTxn = UserDonations()
+           saveDonationTxn.transactionId = transactionId
+           saveDonationTxn.payerId = payerId
+           saveDonationTxn.payerEmail = payerEmail
+           saveDonationTxn.paymentStatus = paymentStatus
+           saveDonationTxn.transactionMode = transactionMode
+           saveDonationTxn.paymentAmount = paymentAmount
+           saveDonationTxn.userId = user_detail
+           saveDonationTxn.createdAt = datetime.datetime.now()
+           saveDonationTxn.updatedAt = datetime.datetime.now()
+           saveDonationTxn.save()
+
+           response = {
+             "error": None,
+             "response": {
+               "message": {
+                 'success' : True,
+                 "successCode": 38,
+                 "statusCode": status.HTTP_200_OK,
+                 "successMessage": "User transaction record saved successfully."
+               }
+             }
+           }
+           status_code = status.HTTP_200_OK
+           return Response(response, status=status_code)
+        except Exception as e:
+            status_code = status.HTTP_400_BAD_REQUEST
+            response =  {
+             "error": {
+               "errorCode": 39,
                "statusCode": status.HTTP_400_BAD_REQUEST,
                "errorMessage": str(e)
              },
