@@ -199,7 +199,6 @@ def edit_user(request, pk):
 
         if mobileNo != instance[0].mobileNo: 
             check_mobile_no = Users.objects.filter(mobileNo=mobileNo).first()
-            print(check_mobile_no)
             if check_mobile_no:
                 messages.warning(request, "User with this mobile number is already registered")
                 return redirect("/users/editUser/" + pk + "/")

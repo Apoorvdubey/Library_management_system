@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'users.apps.UsersConfig',
     'bookManagement.apps.BookmanagementConfig',
-    'authAPIs.apps.AuthapisConfig'
+    'authAPIs.apps.AuthapisConfig',
+    'userAdminQueryManagement.apps.UseradminquerymanagementConfig',
 ]
 
 MIDDLEWARE = [
