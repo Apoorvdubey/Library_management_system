@@ -20,10 +20,10 @@ def listQueries(request, order):
     return render(request, "userAdminQueries/index.html", {"queries" : queries })
 
 
+@loginDecorator
 def viewQuery(request, pk):
     if request.method=="POST":
         pass
     else:
         instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)[0]
-        print(">>>>>>>", instance)
         return render(request, "userAdminQueries/view.html",{"context":instance})

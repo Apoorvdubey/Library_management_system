@@ -29,18 +29,16 @@
                     <div class="col-lg-3" style="text-align: right;">
                         <select id="language" class="select2 form-select" onchange="javascript:handleSelect(this)">
                         
-                            {% if request.path == '/users/listUsers/queryStatus/' %}
+                            {% if request.path == '/userAdminQueryManagement/listQueries/queryStatus/' %}
                             <option value="" disabled>---------------</option>
                             <option value="queryStatus" selected>Sort By Status</option>
                             <option value="createdAt">Sort By Time </option>
-    
-                            
-                            {% elif request.path == "/users/listUsers/createdAt/" %}
-                            
+
+                            {% elif request.path == "/userAdminQueryManagement/listQueries/createdAt/" %}
                             <option value="" disabled>---------------</option>
                             <option value="queryStatus">Sort By Status</option>
                             <option value="createdAt" selected>Sort By Time </option>
-    
+                            
                             {% else %}
                             <option value="" disabled selected>---------------</option>
                             <option value="queryStatus" >Sort By Status</option>
