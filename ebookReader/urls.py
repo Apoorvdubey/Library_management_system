@@ -9,5 +9,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("bookManagement/", include("bookManagement.urls"), name="bookManagement"),
     path('v1/api/', include('authAPIs.urls')),
-    path("userAdminQueryManagement/", include("userAdminQueryManagement.urls"), name="userAdminQueryManagement")
+    path("userAdminQueryManagement/", include("userAdminQueryManagement.urls"), name="userAdminQueryManagement"),
+    path("donationManagement/", include("donationManagement.urls"), name="donationManagement"),
 ]

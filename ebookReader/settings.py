@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bookManagement.apps.BookmanagementConfig',
     'authAPIs.apps.AuthapisConfig',
     'userAdminQueryManagement.apps.UseradminquerymanagementConfig',
+    'donationManagement.apps.DonationmanagementConfig',
 ]
 
 MIDDLEWARE = [
@@ -88,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ebook_db',
         'USER':'root',
-        'PASSWORD':'',
+        'PASSWORD':'Apponward@123',
         'HOST':'127.0.0.1',
         'PORT':'3306'
     }
