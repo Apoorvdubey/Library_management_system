@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
 
-    path("listDonations/createdAt/", views.listDonations, name="listDonations"),
+    path("listDonations/<str:order>/", views.listDonations, name="listDonations"),
     
 ]

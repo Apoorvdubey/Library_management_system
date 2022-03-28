@@ -20,6 +20,8 @@
                Home / Profile Management
                {% elif request.resolver_match.url_name == 'listQueries' or request.resolver_match.url_name == "viewQuery" %}
                Home / Query Management
+               {% elif request.resolver_match.url_name == 'listDonations' %}
+               Home / Query Management
                {% else %}
                Home / Dashboard
                {% endif %}

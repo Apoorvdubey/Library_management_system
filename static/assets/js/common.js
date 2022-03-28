@@ -40,9 +40,12 @@ var path = window.location.pathname
     if (path === '/userAdminQueryManagement/listQueries/createdAt/'){
     document.getElementById("userAdminQueryManagement").parentElement.classList.add('active')
 }
-if (path === '/userAdminQueryManagement/listQueries/queryStatus/'){
+    if (path === '/userAdminQueryManagement/listQueries/queryStatus/'){
     document.getElementById("userAdminQueryManagement").parentElement.classList.add('active')
 }
+    if (path === '/donationManagement/listDonations/createdAt/'){
+        document.getElementById("donationManagement").parentElement.classList.add('active')
+    }
 
 
 
