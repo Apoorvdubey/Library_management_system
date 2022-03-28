@@ -35,10 +35,17 @@ def listDonations(request, order):
     uniqueNewDonerIdsList = list(set(newDonerIdsList))
     totalNewDoners = len(uniqueNewDonerIdsList)
     
+    # janTransactions = []
+    # monthNo = []
+    # for i in range(0,12):
+    #     monthNo.append(i)
+    #     janTransactions.append(UserDonations.objects.filter(createdAt__month=i))
+    # print("janTransactions", monthNo, janTransactions)
+    monthsList = [24, 21, 30, 22, 42, 26, 35, 29, 34, 23, 80, 35, 80]
     
-    p = Paginator(instance,2)
+    p = Paginator(instance, 3)
     page =  request.GET.get('page')
     donations = p.get_page(page)
     return render(request, "donation/index.html", {"donations":donations, "totalTansactions": totalTransactions,
                                                     "totalBalance" : totalBalance, "totalDoners": totalDoners, 
-                                                    "totalNewDoners": totalNewDoners})
+                                                    "totalNewDoners": totalNewDoners, "monthsList": monthsList})
