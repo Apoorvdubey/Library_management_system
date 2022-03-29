@@ -21,7 +21,7 @@ class UserDonations(models.Model):
     payerEmail = models.CharField(max_length=255)
     paymentStatus = models.IntegerField(choices=paymentStatus,null=False,default=2)
     transactionMode = models.CharField(max_length=255)
-    paymentAmount = models.CharField(max_length=255)
+    paymentAmount = models.DecimalField(max_digits=10, decimal_places=2)
     createdAt = models.DateTimeField(default=now, editable=False)
     updatedAt = models.DateTimeField(default=now, editable=False)
     class Meta:
