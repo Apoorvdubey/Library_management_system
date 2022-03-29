@@ -38,7 +38,8 @@ def listDonations(request, order):
     donations = p.get_page(page)
     return render(request, "donation/index.html", {"donations":donations, "totalTansactions": totalTransactions,
                                                     "totalBalance" : totalBalance, "totalDoners": totalDoners, 
-                                                    "totalNewDoners": totalNewDoners, "monthsList": monthsList})
+                                                    "totalNewDoners": totalNewDoners, "monthsList": monthsList,
+                                                    "totalLastMonthDoners": totalLastMonthDoners})
 
 
 def listLastMonthDonations(request, order):
