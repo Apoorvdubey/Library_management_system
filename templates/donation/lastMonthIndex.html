@@ -2,9 +2,7 @@
 {% load static %}
 {% block content %}
 <!-- Content -->
-<style>
-  .badge{min-width: 96px;}
-</style>
+
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
      
@@ -15,11 +13,14 @@
             
             <div class="row  mb-3" >
 
+               
+                
+
             <div class="card">
                 <h5 class="card-header">
                   <div class="row">
                     <div class="col-lg-7">
-                      Donations
+                    Last Month Donations
                     </div>
                    
                     <div class="col-lg-2 mt-2" style="text-align: right;">
@@ -28,19 +29,19 @@
                     </div>
                     <div class="col-lg-3" style="text-align: right;">
                       <select id="language" class="select2 form-select" onchange="javascript:handleSelect(this)">
-                        {% if request.path == '/donationManagement/listDonations/createdAt/' %}
+                        {% if request.path == '/donationManagement/listLastMonthDonations/createdAt/' %}
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus">Sort By Status</option>
                             <option value="paymentAmount">Sort By Amount </option>
                             <option value="createdAt" selected>Sort By Time </option>
 
-                            {% elif request.path == "/donationManagement/listDonations/paymentAmount/" %}
+                            {% elif request.path == '/donationManagement/listLastMonthDonations/paymentAmount/'%}
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus">Sort By Status</option>
                             <option value="paymentAmount" selected>Sort By Amount </option>
                             <option value="createdAt" selected>Sort By Time </option>
 
-                            {% elif request.path == "/donationManagement/listDonations/paymentStatus/" %}
+                            {% elif request.path == '/donationManagement/listLastMonthDonations/paymentStatus/' %}
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus" selected>Sort By Status</option>
                             <option value="paymentAmount">Sort By Amount </option>
@@ -148,13 +149,13 @@
     function handleSelect(elm)
     {
       if(elm.value=='paymentAmount'){
-      document.location.href = "/donationManagement/listDonations/paymentAmount/";
+      document.location.href = "/donationManagement/listLastMonthDonations/paymentAmount/";
       }
       if(elm.value=="createdAt"){
-      document.location.href = "/donationManagement/listDonations/createdAt/";
+      document.location.href = "/donationManagement/listLastMonthDonations/createdAt/";
       }
       if(elm.value=="paymentStatus"){
-      document.location.href = "/donationManagement/listDonations/paymentStatus/";
+      document.location.href = "/donationManagement/listLastMonthDonations/paymentStatus/";
       }
       
     }

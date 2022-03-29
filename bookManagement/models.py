@@ -14,7 +14,7 @@ class Book(models.Model):
     author = models.CharField(max_length=255, null=True, blank=True)
     authorDescription = models.TextField(null=True)
     description = models.TextField()
-    price= models.IntegerField(null=True, blank=True)
+    price= models.DecimalField(max_digits=10, decimal_places=2)
     isAvailable = models.BooleanField(default=True)
     file = models.CharField(max_length=255, default=None, null=True)
     createdAt = models.DateTimeField(default=now, editable=False)
