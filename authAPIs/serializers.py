@@ -42,6 +42,11 @@ class QueryTypesSerializer(serializers.ModelSerializer):
         model=QueryTypes 
         fields=('queryTypeId','name')
 
+class UserAdminQueriesContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=UserAdminQueriesContents 
+        fields=('queryContentId','message','isSentByAdmin','isRead','createdAt','updatedAt','userAdminQueryId')
+
 class BooksListSerializer(serializers.ModelSerializer):
     class Meta:
         model=Book 

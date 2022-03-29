@@ -12,6 +12,7 @@ from authAPIs.views import BannersView,BooksListView
 from authAPIs.views import ProfileDetailView,ProfileUpdateView
 from authAPIs.views import ChangeBookmarkStatusView,ChangeBookReadingStatusView
 from authAPIs.views import DonateMoneyView,SendQueryView,QueryTypesView
+from authAPIs.views import QueryMessagesListView
 from rest_framework_simplejwt.views import ( TokenObtainPairView,TokenRefreshView,)
 from django.urls import path, include
 
@@ -33,6 +34,7 @@ urlpatterns = [
     url(r'^donate/money', DonateMoneyView.as_view()),
     url(r'^send/query', SendQueryView.as_view()),
     url(r'^query/types', QueryTypesView.as_view()),
+    url(r'^query/messages/list', QueryMessagesListView.as_view()),
     ]
 
 
