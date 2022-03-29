@@ -9,7 +9,7 @@ from rest_framework.generics import CreateAPIView,RetrieveAPIView,UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from authAPIs.serializers import CustomerRegistrationSerializer,BannersListSerializer
-from authAPIs.serializers import BooksListSerializer,UserSerializer
+from authAPIs.serializers import BooksListSerializer,UserSerializer,QueryTypesSerializer
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
@@ -33,6 +33,7 @@ from django.contrib.auth.models import Group,Permission
 from django.db import connection
 from users.models import Users
 from authAPIs.models import Banners,UserDonations
+from userAdminQueryManagement.models import QueryTypes,UserAdminQueries,UserAdminQueriesContents
 from bookManagement.models import Book,UserBookmarkBook,UserBookReadingStatus
 # Create your views here.
 
@@ -922,3 +923,99 @@ class DonateMoneyView(generics.UpdateAPIView):
              "response": None
             }
         return Response(response, status=status_code)
+
+class SendQueryView(generics.UpdateAPIView):
+    
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        try:
+           request_data = JSONParser().parse(request)
+           message = request_data['message']
+           queryTypeId = request_data['queryTypeId']
+           name = request_data['name']
+           email = request_data['email']
+           userId = request.user.id
+           user_detail = Users.objects.filter(pk=userId).first()
+           admin_detail = Users.objects.filter(pk=1).first()
+           query_detail = QueryTypes.objects.filter(pk=queryTypeId).first()
+           
+           saveQuery = UserAdminQueries()
+           saveQuery.queryStatus = "inprogress"
+           saveQuery.name = name
+           saveQuery.email = email
+           saveQuery.adminId = admin_detail
+           saveQuery.userId = user_detail
+           saveQuery.queryTypeId = query_detail
+           saveQuery.createdAt = datetime.datetime.now()
+           saveQuery.lastMessageSetDateTime = datetime.datetime.now()
+           saveQuery.save()
+
+           userAdminQueryId = UserAdminQueries.objects.order_by('-userAdminQueryId').first()
+           saveMsg = UserAdminQueriesContents()
+           saveMsg.message = message
+           saveMsg.isSentByAdmin = False
+           saveMsg.isRead = False
+           saveMsg.createdAt = datetime.datetime.now()
+           saveMsg.updatedAt = datetime.datetime.now()
+           saveMsg.userAdminQueryId = userAdminQueryId
+           saveMsg.save()
+
+           response = {
+             "error": None,
+             "response": {
+               "message": {
+                 'success' : True,
+                 "successCode": 40,
+                 "statusCode": status.HTTP_200_OK,
+                 "successMessage": "Your query has been sent successfully."
+               }
+             }
+           }
+           status_code = status.HTTP_200_OK
+           return Response(response, status=status_code)
+        except Exception as e:
+            status_code = status.HTTP_400_BAD_REQUEST
+            response =  {
+             "error": {
+               "errorCode": 41,
+               "statusCode": status.HTTP_400_BAD_REQUEST,
+               "errorMessage": str(e)
+             },
+             "response": None
+            }
+        return Response(response, status=status_code)
+
+class QueryTypesView(generics.RetrieveAPIView):
+
+    permission_classes = (AllowAny,)
+    def get(self, request):
+       try:
+          query_types = QueryTypes.objects.all()
+          query_types_serializer = QueryTypesSerializer(query_types,many=True)
+          response = {
+            "error": None,
+            "response": {
+                   "data": {
+                        'queryTypes' : query_types_serializer.data
+                   },
+              "message": {
+                'success' : True,
+                "successCode": 42,
+                "statusCode": status.HTTP_200_OK,
+                "successMessage": "Query Types fetched successfully"
+              }
+            }
+          }
+          status_code = status.HTTP_200_OK
+          return Response(response, status=status_code)    
+       except Exception as e:
+           status_code = status.HTTP_400_BAD_REQUEST
+           response =  {
+            "error": {
+              "errorCode": 43,
+              "statusCode": status.HTTP_400_BAD_REQUEST,
+              "errorMessage": str(e)
+            },
+            "response": None
+           }
+           return Response(response, status=status_code)   

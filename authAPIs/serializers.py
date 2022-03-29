@@ -13,6 +13,7 @@ from rest_framework import status
 from users.models import Users
 from authAPIs.models import Banners
 from bookManagement.models import Book
+from userAdminQueryManagement.models import QueryTypes,UserAdminQueries,UserAdminQueriesContents
 
 class CustomerRegistrationSerializer(serializers.ModelSerializer):
      
@@ -35,6 +36,11 @@ class BannersListSerializer(serializers.ModelSerializer):
     class Meta:
         model=Banners 
         fields=('bannerId','bannerImage','IsActive','createdAt')
+
+class QueryTypesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=QueryTypes 
+        fields=('queryTypeId','name')
 
 class BooksListSerializer(serializers.ModelSerializer):
     class Meta:
