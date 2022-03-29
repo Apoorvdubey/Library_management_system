@@ -19,7 +19,7 @@
                         <div class="row" >
 
                            
-                        <div class="col-lg-3 col-md-12 col-6 mb-3" style="cursor: pointer;">
+                        <div class="col-lg-3 col-md-12 col-6 mb-3">
                           <a href="/donationManagement/listDonations/createdAt/">
                             <div class="card">
                               <div class="card-body">
@@ -29,7 +29,7 @@
                                   </div>
                                   
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Total Doner</span>
+                                <span class="fw-semibold d-block mb-1">Total Doners</span>
                                 <h3 class="card-title mb-2">{{totalDoners}}</h3>
                               </div>
                             </div>
@@ -37,8 +37,7 @@
                           </div>
 
                           <div class="col-lg-3 col-md-12 col-6 mb-3" style="cursor: pointer;">
-                            <a href="/donationManagement/listLastMonthDonations/createdAt/">
-                              <div class="card">
+                            <a href="/donationManagement/listLastMonthDonations/createdAt/"><div class="card">
                               <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                   <div class="avatar flex-shrink-0 icon-update green-bg">
@@ -46,8 +45,9 @@
                                   </div>
                                   
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Last Month Doner's</span>
-                                <h3 class="card-title mb-2">{{totalNewDoners}}</h3>
+                                <span class="fw-semibold d-block mb-1">Last Month Doners</span>
+                                <!-- <h3 class="card-title mb-2">{{totalNewDoners}}</h3> -->
+                                <h3 class="card-title mb-2">{{totalLastMonthDoners}}</h3>
                               </div>
                             </div>
                             </a>
@@ -96,7 +96,7 @@
                 <h5 class="card-header">
                   <div class="row">
                     <div class="col-lg-7">
-                      Donations
+                    Last Month Donations
                     </div>
                    
                     <div class="col-lg-2 mt-2" style="text-align: right;">
@@ -105,19 +105,19 @@
                     </div>
                     <div class="col-lg-3" style="text-align: right;">
                       <select id="language" class="select2 form-select" onchange="javascript:handleSelect(this)">
-                        {% if request.path == '/donationManagement/listDonations/createdAt/' %}
+                        {% if request.path == '/donationManagement/listLastMonthDonations/createdAt/' %}
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus">Sort By Status</option>
                             <option value="paymentAmount">Sort By Amount </option>
                             <option value="createdAt" selected>Sort By Time </option>
 
-                            {% elif request.path == "/donationManagement/listDonations/paymentAmount/" %}
+                            {% elif request.path == '/donationManagement/listLastMonthDonations/paymentAmount/'%}
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus">Sort By Status</option>
                             <option value="paymentAmount" selected>Sort By Amount </option>
                             <option value="createdAt" selected>Sort By Time </option>
 
-                            {% elif request.path == "/donationManagement/listDonations/paymentStatus/" %}
+                            {% elif request.path == '/donationManagement/listLastMonthDonations/paymentStatus/' %}
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus" selected>Sort By Status</option>
                             <option value="paymentAmount">Sort By Amount </option>
@@ -225,13 +225,13 @@
     function handleSelect(elm)
     {
       if(elm.value=='paymentAmount'){
-      document.location.href = "/donationManagement/listDonations/paymentAmount/";
+      document.location.href = "/donationManagement/listLastMonthDonations/paymentAmount/";
       }
       if(elm.value=="createdAt"){
-      document.location.href = "/donationManagement/listDonations/createdAt/";
+      document.location.href = "/donationManagement/listLastMonthDonations/createdAt/";
       }
       if(elm.value=="paymentStatus"){
-      document.location.href = "/donationManagement/listDonations/paymentStatus/";
+      document.location.href = "/donationManagement/listLastMonthDonations/paymentStatus/";
       }
       
     }

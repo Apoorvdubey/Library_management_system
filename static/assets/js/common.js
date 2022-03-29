@@ -46,6 +46,14 @@ var path = window.location.pathname
     if (path === '/donationManagement/listDonations/createdAt/'){
         document.getElementById("donationManagement").parentElement.classList.add('active')
     }
+    if (path === '/donationManagement/listLastMonthDonations/createdAt/'){
+        document.getElementById("donationManagement").parentElement.classList.add('active')
+    }
+    if (path === '/donationManagement/listLastMonthDonations/paymentStatus/'){
+        document.getElementById("donationManagement").parentElement.classList.add('active')
+    }
+    if (path === '/donationManagement/listLastMonthDonations/paymentAmount/'){
+        document.getElementById("donationManagement").parentElement.classList.add('active')
 
-
+    }
 
