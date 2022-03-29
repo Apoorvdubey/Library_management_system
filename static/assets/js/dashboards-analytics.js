@@ -493,11 +493,9 @@
   var x = document.getElementById('monthsList').value
   var arr = []
   var y = ((x.replaceAll(']', "")).replaceAll("[", "")).split(", ")
-  console.log(y)
   for(var i in y){
     arr.push(parseInt(y[i]))
   }
-  console.log(arr)
   const incomeChartEl = document.querySelector('#incomeChart'),
     incomeChartConfig = {
       series: [
