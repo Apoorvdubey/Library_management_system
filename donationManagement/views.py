@@ -15,7 +15,7 @@ def listDonations(request, order):
         instance = UserDonations.objects.all().order_by(order)
 
     totalTransactions = instance.count()
-    totalBalance = sum([int(x.paymentAmount) for x in instance if x.paymentStatus == 2])
+    totalBalance = sum([float(x.paymentAmount) for x in instance if x.paymentStatus == 2])
     totalDoners = len(list(set([x.userId for x in instance])))
 
     newInstance = instance.filter(createdAt__date=datetime.now().date())
@@ -26,12 +26,12 @@ def listDonations(request, order):
     d = {}
     for i in range(0,12):
         d[i]=UserDonations.objects.filter(createdAt__month=i)
-    monthsList = [0, sum([int(x.paymentAmount) for x in d[0]]), sum([int(x.paymentAmount) for x in d[1]]), 
-                sum([int(x.paymentAmount) for x in d[2]]), sum([int(x.paymentAmount) for x in d[3]]), 
-                sum([int(x.paymentAmount) for x in d[4]]), sum([int(x.paymentAmount) for x in d[5]]), 
-                sum([int(x.paymentAmount) for x in d[6]]), sum([int(x.paymentAmount) for x in d[7]]),
-                sum([int(x.paymentAmount) for x in d[8]]), sum([int(x.paymentAmount) for x in d[9]]),
-                sum([int(x.paymentAmount) for x in d[10]]), sum([int(x.paymentAmount) for x in d[11]])]
+    monthsList = [0, sum([float(x.paymentAmount) for x in d[0]]), sum([float(x.paymentAmount) for x in d[1]]), 
+                sum([float(x.paymentAmount) for x in d[2]]), sum([float(x.paymentAmount) for x in d[3]]), 
+                sum([float(x.paymentAmount) for x in d[4]]), sum([float(x.paymentAmount) for x in d[5]]), 
+                sum([float(x.paymentAmount) for x in d[6]]), sum([float(x.paymentAmount) for x in d[7]]),
+                sum([float(x.paymentAmount) for x in d[8]]), sum([float(x.paymentAmount) for x in d[9]]),
+                sum([float(x.paymentAmount) for x in d[10]]), sum([float(x.paymentAmount) for x in d[11]])]
 
     p = Paginator(instance, 3)
     page =  request.GET.get('page')
@@ -51,7 +51,7 @@ def listLastMonthDonations(request, order):
         instance = UserDonations.objects.filter(createdAt__month=datetime.now().month-1).order_by(order)
 
     totalTransactions = UserDonations.objects.all().count()
-    totalBalance = sum([int(x.paymentAmount) for x in UserDonations.objects.all() if x.paymentStatus == 2])
+    totalBalance = sum([float(x.paymentAmount) for x in UserDonations.objects.all() if x.paymentStatus == 2])
     totalDoners = len(list(set([x.userId for x in UserDonations.objects.all()])))
 
     newInstance = UserDonations.objects.filter(createdAt__date=datetime.now().date())
@@ -63,12 +63,12 @@ def listLastMonthDonations(request, order):
     d = {}
     for i in range(0,12):
         d[i]=UserDonations.objects.filter(createdAt__month=i)
-    monthsList = [0, sum([int(x.paymentAmount) for x in d[0]]), sum([int(x.paymentAmount) for x in d[1]]), 
-                sum([int(x.paymentAmount) for x in d[2]]), sum([int(x.paymentAmount) for x in d[3]]), 
-                sum([int(x.paymentAmount) for x in d[4]]), sum([int(x.paymentAmount) for x in d[5]]), 
-                sum([int(x.paymentAmount) for x in d[6]]), sum([int(x.paymentAmount) for x in d[7]]),
-                sum([int(x.paymentAmount) for x in d[8]]), sum([int(x.paymentAmount) for x in d[9]]),
-                sum([int(x.paymentAmount) for x in d[10]]), sum([int(x.paymentAmount) for x in d[11]])]
+    monthsList = [0, sum([float(x.paymentAmount) for x in d[0]]), sum([float(x.paymentAmount) for x in d[1]]), 
+                sum([float(x.paymentAmount) for x in d[2]]), sum([float(x.paymentAmount) for x in d[3]]), 
+                sum([float(x.paymentAmount) for x in d[4]]), sum([float(x.paymentAmount) for x in d[5]]), 
+                sum([float(x.paymentAmount) for x in d[6]]), sum([float(x.paymentAmount) for x in d[7]]),
+                sum([float(x.paymentAmount) for x in d[8]]), sum([float(x.paymentAmount) for x in d[9]]),
+                sum([float(x.paymentAmount) for x in d[10]]), sum([float(x.paymentAmount) for x in d[11]])]
 
     p = Paginator(instance, 3)
     page =  request.GET.get('page')
