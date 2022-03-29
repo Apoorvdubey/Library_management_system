@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from authAPIs.serializers import CustomerRegistrationSerializer,BannersListSerializer
 from authAPIs.serializers import BooksListSerializer,UserSerializer,QueryTypesSerializer
+from authAPIs.serializers import UserAdminQueriesContentSerializer
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
@@ -1013,6 +1014,43 @@ class QueryTypesView(generics.RetrieveAPIView):
            response =  {
             "error": {
               "errorCode": 43,
+              "statusCode": status.HTTP_400_BAD_REQUEST,
+              "errorMessage": str(e)
+            },
+            "response": None
+           }
+           return Response(response, status=status_code)   
+
+class QueryMessagesListView(generics.RetrieveAPIView):
+
+    permission_classes = (AllowAny,)
+    def post(self, request):
+       try:
+          request_data = JSONParser().parse(request)
+          userAdminQueryId = request_data['userAdminQueryId']
+          query_messages = UserAdminQueriesContents.objects.filter(userAdminQueryId__userAdminQueryId=userAdminQueryId)
+          query_messages_serializer = UserAdminQueriesContentSerializer(query_messages,many=True)
+          response = {
+            "error": None,
+            "response": {
+                   "data": {
+                        'queryMessages' : query_messages_serializer.data
+                   },
+              "message": {
+                'success' : True,
+                "successCode": 44,
+                "statusCode": status.HTTP_200_OK,
+                "successMessage": "Query messages list fetched successfully"
+              }
+            }
+          }
+          status_code = status.HTTP_200_OK
+          return Response(response, status=status_code)    
+       except Exception as e:
+           status_code = status.HTTP_400_BAD_REQUEST
+           response =  {
+            "error": {
+              "errorCode": 45,
               "statusCode": status.HTTP_400_BAD_REQUEST,
               "errorMessage": str(e)
             },
