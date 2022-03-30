@@ -29,7 +29,7 @@ def book_list(request, order):
 
     instance = Book.objects.all().order_by(order)
 
-    p = Paginator(instance,2)
+    p = Paginator(instance,3)
     
     page =  request.GET.get('page')
     

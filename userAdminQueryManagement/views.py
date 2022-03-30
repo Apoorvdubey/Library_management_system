@@ -22,8 +22,18 @@ def listQueries(request, order):
 
 @loginDecorator
 def viewQuery(request, pk):
+    instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)
+    return render(request, "userAdminQueries/view.html",{"context":instance,})
+
+
+@loginDecorator
+def replyUserQuery(request, pk):
     if request.method=="POST":
-        pass
-    else:
-        instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)[0]
+        reply = request.POST.get('reply')
+        instance = UserAdminQueries.objects.get(userAdminQueryId=pk)
+        UserAdminQueriesContents.objects.create(userAdminQueryId=instance, message=reply, isSentByAdmin=True)
+        instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)
         return render(request, "userAdminQueries/view.html",{"context":instance})
+    else: 
+        instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)
+        return render(request, "userAdminQueries/view.html",{"context":instance,})

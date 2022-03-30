@@ -45,3 +45,14 @@ class UserBookReadingStatus(models.Model):
     class Meta:
         db_table='user_book_reading_status'
     
+
+class BookImages(models.Model):
+
+    bookImageId = models.AutoField(primary_key=True)
+    bookImage = models.CharField(max_length=255, default=None, null=True)
+    bookId = models.ForeignKey(Book, on_delete=models.CASCADE, default=None, blank=True, related_name='fetchingBookDetail', db_column='bookId')
+    createdAt = models.DateTimeField(default=now, editable=False)
+    updatedAt = models.DateTimeField(default=now, editable=False)
+    
+    class Meta:
+        db_table='book_images'
