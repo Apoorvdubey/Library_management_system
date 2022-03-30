@@ -315,6 +315,7 @@ class VerifyEmailOTPView(generics.RetrieveAPIView):
                status_code = status.HTTP_400_BAD_REQUEST
                return Response(response, status=status_code)
 
+           Users.objects.filter(otp=otp_request).update(isEmailVerified=True)
            response = {
              "error": None,
              "response": {
