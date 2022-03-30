@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'authAPIs.apps.AuthapisConfig',
     'userAdminQueryManagement.apps.UseradminquerymanagementConfig',
     'donationManagement.apps.DonationmanagementConfig',
+    'homePageAPIs.apps.HomepageapisConfig',
 ]
 
 MIDDLEWARE = [
