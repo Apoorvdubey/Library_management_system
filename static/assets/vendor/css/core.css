@@ -16678,3 +16678,11 @@ color: greenyellow;
 background: #fff2d9;
 color: orange;
 }
+
+.ml-2{
+  margin-left: 2%;
+}
+.img-height{
+  height: 130px;
+  border-radius: 10px;
+}
