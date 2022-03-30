@@ -55,11 +55,15 @@
                   <table class="table">
                     <thead>
                       <tr>
+                        <th>Submitted By</th>
+                        <th>Email</th>
                         <th>Query ID</th>
                         <th>Date Received</th>
                         <!-- <th>Product</th> -->
-                        <!-- <th>Issues</th> -->
-                        <th>Submitted By</th>
+                        
+                        
+                        <th>Issues</th>
+                        <!-- <th>Complaint</th> -->
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -67,12 +71,23 @@
                     <tbody class="table-border-bottom-0">
                         {% for query in queries %}
                       <tr>
+                       
+                          
+                        <td class="zoom-img">
+                          {% if query.userId.image %}
+                          <img src="{{query.userId.image}}" alt="avatar" class="rounded-circle w-10">
+                          {% else %}
+                          <img src="https://png.pngtree.com/element_our/20190604/ourmid/pngtree-user-avatar-boy-image_1482937.jpg" alt="avatar" class="rounded-circle w-10">
+                          {% endif %}
+                          {{query.name}}</td>
+                        <td>{{query.email}}</td>
                         <td>{{query.userAdminQueryId}}</td>
                         <td>
                            {{query.createdAt}}
                         </td>
-                        <!-- <td>Test Book 1</td> -->
-                        <td>{{query.userId.fullName}}</td>
+                        <td>{{query.queryTypeId.name}}</td>
+                        <!-- <td>{{query.queryDetail.message.all}}</td> -->
+                        
                         <!-- <td>this is test Complaint</td> -->
                         {% if query.queryStatus == "open" %}
                         <td><span class="badge bg-label-info me-1">{{query.queryStatus}}</span></td>
