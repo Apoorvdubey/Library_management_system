@@ -32,8 +32,11 @@ def replyUserQuery(request, pk):
         reply = request.POST.get('reply')
         instance = UserAdminQueries.objects.get(userAdminQueryId=pk)
         UserAdminQueriesContents.objects.create(userAdminQueryId=instance, message=reply, isSentByAdmin=True)
-        instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)
-        return render(request, "userAdminQueries/view.html",{"context":instance})
+        if instance.queryStatus == 'pending':
+            instance.queryStatus = "open"
+            instance.save()
+        contentInstance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)
+        return render(request, "userAdminQueries/view.html", {"context":contentInstance})
     else: 
         instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)
-        return render(request, "userAdminQueries/view.html",{"context":instance,})
+        return render(request, "userAdminQueries/view.html", {"context":instance,})

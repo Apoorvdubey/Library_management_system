@@ -12,13 +12,13 @@ class QueryTypes(models.Model):
         db_table='query_types'
 
 class UserAdminQueries(models.Model):
-    QUERY_STATUS = (("open", "open"), ('inprogress', 'inprogress'), ('rejected', 'rejected'), ('closed', 'closed'))
+    QUERY_STATUS = (("open", "open"), ('pending', 'pending'), ('rejected', 'rejected'), ('closed', 'closed'))
 
     userAdminQueryId = models.AutoField(primary_key=True)
     queryTypeId = models.ForeignKey(QueryTypes, on_delete=models.CASCADE, default=None, blank=True, related_name='queryType', db_column='queryTypeId')
     name = models.CharField(max_length=255,null=True)
     email = models.CharField(max_length=255,null=True)
-    queryStatus = models.CharField(max_length=255, choices=QUERY_STATUS, default='inprogress', blank=True, null=True)
+    queryStatus = models.CharField(max_length=255, choices=QUERY_STATUS, default='pending', blank=True, null=True)
     userId = models.ForeignKey(Users, on_delete=models.CASCADE, default=None, blank=True, related_name='user', db_column='userId')
     adminId = models.ForeignKey(Users, on_delete=models.CASCADE, default=None, blank=True, related_name='admin', db_column='adminId')
     createdAt = models.DateTimeField(default=now, editable=False)

@@ -51,8 +51,11 @@ def add_book(request):
         price = request.POST.get('price')
         file = request.FILES.get('file')
         isAvailable = request.POST.get('isAvailable')
+        bookImages = request.FILES.getlist('bookImages')
     
-        Book.objects.create(name=name, bookCover=s3_helper(bookCover), description=description, isAvailable=isAvailable, author=author, authorDescription=authonDescription, price=price, file=s3_helper(file))
+        instance = Book.objects.create(name=name, bookCover=s3_helper(bookCover), description=description, isAvailable=isAvailable, author=author, authorDescription=authonDescription, price=price, file=s3_helper(file))
+        for i in bookImages:
+            BookImages.objects.create(bookImage=s3_helper(i), bookId=instance)
         return redirect("/bookManagement/listBooks/id/")
 
     else:
