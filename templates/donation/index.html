@@ -38,13 +38,13 @@
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus">Sort By Status</option>
                             <option value="paymentAmount" selected>Sort By Amount </option>
-                            <option value="createdAt" selected>Sort By Time </option>
+                            <option value="createdAt">Sort By Time </option>
 
                             {% elif request.path == "/donationManagement/listDonations/paymentStatus/" %}
                             <option value="" disabled>---------------</option>
                             <option value="paymentStatus" selected>Sort By Status</option>
                             <option value="paymentAmount">Sort By Amount </option>
-                            <option value="createdAt" selected>Sort By Time </option>
+                            <option value="createdAt">Sort By Time </option>
                             
                             {% else %}
                             <option value="" disabled selected>---------------</option>
