@@ -57,3 +57,44 @@ var path = window.location.pathname
 
     }
 
+
+// ADD BOOK JS
+
+$(document).ready(function () {
+    if (window.File && window.FileList && window.FileReader) {
+        $("#files").on("change", function (e) {
+            $('.image-upload-wrap').css("background", "#F5F5F5");
+
+            var files = e.target.files,
+                filesLength = files.length;
+            //alert(files.length)
+            for (var i = 0; i < filesLength; i++) {
+                var f = files[i]
+                var fileReader = new FileReader();
+                fileReader.onload = (function (e) {
+                    var file = e.target;
+                    $("<span class=\"pip\">" +
+                        "<span class=\"remove\">X</span>" +
+                        "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                        "</span>").insertAfter("#files");
+                    $(".remove").click(function () {
+                        $(this).parent(".pip").remove();
+
+                        //alert($('.pip').length);
+                        if ($('.pip').length == 0) {
+
+                            $('.image-upload-wrap').css("background", "rgb(233 244 255)");
+                        }
+                    });
+                    
+
+                });
+                fileReader.readAsDataURL(f);
+            }
+            console.log(files);
+        });
+    } else {
+        alert("Your browser doesn't support to File API")
+    }
+});
+

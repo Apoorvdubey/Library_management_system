@@ -90,9 +90,9 @@
                         
                         <!-- <td>this is test Complaint</td> -->
                         {% if query.queryStatus == "open" %}
-                        <td><span class="badge bg-label-info me-1">{{query.queryStatus}}</span></td>
-                        {% elif query.queryStatus == "inprogress" %}
                         <td><span class="badge bg-label-success me-1">{{query.queryStatus}}</span></td>
+                        {% elif query.queryStatus == "pending" %}
+                        <td><span class="badge bg-label-info me-1">{{query.queryStatus}}</span></td>
                         {% elif query.queryStatus == "closed" %}
                         <td><span class="badge bg-secondary me-1">{{query.queryStatus}}</span></td>
                         {% else %}
