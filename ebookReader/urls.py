@@ -8,7 +8,8 @@ urlpatterns = [
     path("users/", include("users.urls"), name="users"),
     path("", views.index, name="index"),
     path("bookManagement/", include("bookManagement.urls"), name="bookManagement"),
-    path('v1/api/', include('authAPIs.urls')),
     path("userAdminQueryManagement/", include("userAdminQueryManagement.urls"), name="userAdminQueryManagement"),
     path("donationManagement/", include("donationManagement.urls"), name="donationManagement"),
+    path('v1/api/', include('authAPIs.urls')),
+    path('v1/api/', include('homePageAPIs.urls')),
 ]

@@ -33,6 +33,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=255, choices=genders, null=True, default="M")
     isActive = models.BooleanField(default=True)
     isDeleted = models.BooleanField(default=False)
+    isEmailVerified = models.BooleanField(default=False)
     userType = models.CharField(max_length=255, choices=userTypes, null=False, default="user")
     otp = models.CharField(max_length=255,null=True)
     is_staff = models.BooleanField(default=False, null=False)
