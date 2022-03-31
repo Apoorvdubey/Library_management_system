@@ -25,8 +25,59 @@
                            
                         </div>  
                         <div class="col-lg-7 text-right">
+                            <div class="col-lg-3" style="text-align: right;">
+                                <select id="query" class="select2 form-select" style="width: fit-content;" onchange="location = this.value;">
+                                
+                                    {% if context.0.userAdminQueryId.queryStatus == "pending" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/">Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+        
+                                    {% elif context.0.userAdminQueryId.queryStatus == "open" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/">Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+      
+                                    {% elif context.0.userAdminQueryId.queryStatus == "closed" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/" >Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/" >Close</option>
+      
+                                    {% elif context.0.userAdminQueryId.queryStatus == "rejected" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/">Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+                                    
+                                    {% else %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}}/rejected/" >Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+                                    {% endif %}
+            
+                                   
+                                  </select>
+                            </div>
                             
-                            <span class="badge bg-label-success me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                            
+                            {% if query.queryStatus == "open" %}
+                        <span class="badge bg-label-success me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% elif query.queryStatus == "pending" %}
+                        <span class="badge bg-label-info me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% elif query.queryStatus == "closed" %}
+                        <span class="badge bg-secondary me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% else %}
+                        <span class="badge bg-label-danger me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% endif %}
                             <!-- <p class="m-0">12/11/11</p> -->
                         </div>  
 
@@ -73,7 +124,8 @@
                                 {% endfor %}
                                 
                             </div>
-                            
+
+                            {% if context.0.userAdminQueryId.queryStatus == "pending" or context.0.userAdminQueryId.queryStatus == "open" %}
                                 <form method="post" action="/userAdminQueryManagement/replyUserQuery/{{context.0.userAdminQueryId.userAdminQueryId}}/">
                                     {% csrf_token %}
                                     <div class="input-group">
@@ -82,6 +134,7 @@
                                
                               </div>
                             </form>
+                            {% endif %}
                         </div>
                     </div>
                     </div>

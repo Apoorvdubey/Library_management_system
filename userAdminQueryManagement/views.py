@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import UserAdminQueriesContents, UserAdminQueries
 from django.core.paginator import Paginator
 from users.views import loginDecorator
@@ -40,3 +40,17 @@ def replyUserQuery(request, pk):
     else: 
         instance = UserAdminQueriesContents.objects.filter(userAdminQueryId=pk)
         return render(request, "userAdminQueries/view.html", {"context":instance,})
+
+
+
+from ebookReader import settings
+@loginDecorator
+def updateUserQueryStatus(request, pk, queryStatus):
+    
+    instance = UserAdminQueries.objects.get(pk=pk)
+    instance.queryStatus = queryStatus
+    instance.save()
+    if request.__dict__['META']['HTTP_REFERER'] == "http://127.0.0.1:8000/userAdminQueryManagement/listQueries/createdAt/":
+        return redirect("/userAdminQueryManagement/listQueries/createdAt/")
+    else:
+        return redirect("/userAdminQueryManagement/viewQuery/" + pk + "/")
