@@ -56,7 +56,11 @@ def delete_book(request, pk):
 def search_book(request):
     book_name = request.GET.get('search')
     instance = Book.objects.filter(name__icontains=book_name)
-    return render(request, "bookManagement/index.html", {"books": instance, "nums":5})
+    p = Paginator(instance,4)
+    page =  request.GET.get('page')
+    venues = p.get_page(page)
+    nums = "a" * venues.paginator.num_pages
+    return render(request, "bookManagement/index.html", {"books": venues, "nums":5, "search": book_name})
 
 
 @loginDecorator
@@ -102,3 +106,26 @@ def edit_book(request, pk):
     else:
         instance = Book.objects.get(pk=pk)
         return render(request, "bookManagement/edit.html", {"context":instance})
+
+
+@loginDecorator
+def viewBookDetails(request, pk):
+
+    try:
+        instance = Book.objects.get(pk=pk)
+        imageInstance = BookImages.objects.filter(bookId=instance)
+        return render(request, "bookManagement/view.html", context = {"Book": instance, "imageInstance": imageInstance})
+    except:
+        return redirect("/bookManagement/listBooks/id/")
+
+
+@loginDecorator
+def removeBookImages(request, pk):
+    try:
+        imageInstance = BookImages.objects.get(pk=pk)
+        imageInstance.delete()
+        return redirect("/bookManagement/editBook/" + str(imageInstance.bookId.pk) + "/")
+    except:
+        imageInstance = BookImages.objects.get(pk=pk)
+        return redirect("/bookManagement/editBook/" + str(imageInstance.bookId.pk) + "/")
+        
