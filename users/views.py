@@ -1,16 +1,8 @@
-from asyncio import FastChildWatcher
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from rest_framework.views import APIView
 from . serializers import *
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import make_password
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework import status
 from django.contrib.auth.decorators import login_required
 import boto3
 import os
@@ -18,7 +10,7 @@ import uuid
 from ebookReader import settings
 from django.core.paginator import Paginator
 
-from users import serializers
+
 
 
 loginDecorator = login_required(login_url='/users/login/')
@@ -66,26 +58,6 @@ def logut_admin(request):
     return redirect("login")
 
 
-class CreateUserView(APIView):
-    """
-    API for creating new user via admin
-    """
-    permission_classes = [IsAuthenticated]
-    
-    def post(self, request, *args, **kwargs):
-        params = request.data
-        instance = Users.objects.all()
-        try:
-            instance.create(email=params['email'],
-                            mobileNo=params['mobileNo'],
-                            gender=params['gender'],
-                            fullName=params["fullName"],
-                            password=make_password(params['password']))
-            return Response({"response_message":"User created successfully"}, status=status.HTTP_201_CREATED)
-        except:
-            return Response({"response_message":"Missing parameters"}, status=status.HTTP_400_BAD_REQUEST)
-
-
 @loginDecorator
 def add_user(request):
     if request.method=="POST":
@@ -111,22 +83,6 @@ def add_user(request):
         return render(request, "userManagement/add.html", {})
 
 
-class UsersListView(APIView, LimitOffsetPagination):
-    """
-    API for listing all users
-    """
-    serializers_class = UserListSerializer
-    permission_classes = [IsAuthenticated]
-    # renderer_classes = [TemplateHTMLRenderer]
-    # template_name = 'main/home.html'
-
-    def get(self, request):
-        instance = Users.objects.filter(userType="user")
-        results = self.paginate_queryset(instance, request, view=self)
-        serializers = self.serializers_class(instance=results, many= True)
-        return Response({"response_message":"Data fetched successfully", "count": instance.count(), "data":serializers.data}, status=status.HTTP_200_OK)
-
-
 @loginDecorator
 def user_list(request, order):
 
@@ -143,43 +99,12 @@ def user_list(request, order):
     return render(request, "userManagement/index.html", {"venues": venues, "nums": nums})
 
 
-class DeleteUsersView(APIView):
-    """
-    API for deleting a user
-    """
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, pk):
-        instance = Users.objects.filter(pk=pk)
-        if instance:
-            instance.delete()
-            return Response({"response_message":"User deleted successfully"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"response_message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
-
-
 @loginDecorator
 def delete_user(request, pk):
 
     instance = Users.objects.filter(pk=pk)
     instance.delete()
     return redirect("/users/listUsers/id/")
-
-
-class EditUsersView(APIView):
-    """
-    API for editing a user
-    """
-    permission_classes = [IsAuthenticated]
-
-    def put(self, request, pk):
-        params = request.data
-        instance = Users.objects.filter(pk=pk)
-        if instance:
-            instance.update(fullName=params['fullName'], gender=params["gender"])
-            return Response({"response_message":"User updated successfully"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"response_message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 @loginDecorator
@@ -211,25 +136,6 @@ def edit_user(request, pk):
     else:
         instance = Users.objects.get(pk=pk)
         return render(request, "userManagement/edit.html", {"context":instance})
-            
-
-class BlockUnblockUsersView(APIView):
-    """
-    API for blocking and unblocking a user
-    """
-    permission_classes = [IsAuthenticated]
-
-    def put(sef, request, pk):
-        instance = Users.objects.filter(pk=pk)
-        if instance:
-            if instance[0].isActive==True:
-                instance.update(isActive=False)
-                return Response({"response_message":"User blocked successfully"}, status=status.HTTP_200_OK)
-            else:
-                instance.update(isActive=True)
-                return Response({"response_message":"User unblocked successfully"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"response_message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 @loginDecorator
@@ -261,22 +167,7 @@ def profile_view(request):
         return redirect("/")
     else:
         instance = Users.objects.get(pk=request.user.pk)
-        return render(request, "main/profile.html", {"context":instance} )
-
-
-class SearchUserView(APIView):
-    """
-    API for searching users
-    """
-    serializers_class = UserListSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        params = request.data
-        instance = Users.objects.filter(fullName__icontains=params['search'])
-        serializers = self.serializers_class(instance=instance, many=True)
-        return Response({"response_message": "Users fetched successfully", "data":serializers.data}, status=status.HTTP_200_OK)
-        
+        return render(request, "main/profile.html", {"context":instance})
 
 
 @loginDecorator

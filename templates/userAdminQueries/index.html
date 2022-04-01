@@ -65,6 +65,7 @@
                         <th>Issues</th>
                         <!-- <th>Complaint</th> -->
                         <th>Status</th>
+                        <th>Update Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -90,14 +91,60 @@
                         
                         <!-- <td>this is test Complaint</td> -->
                         {% if query.queryStatus == "open" %}
-                        <td><span class="badge bg-label-info me-1">{{query.queryStatus}}</span></td>
-                        {% elif query.queryStatus == "inprogress" %}
                         <td><span class="badge bg-label-success me-1">{{query.queryStatus}}</span></td>
+                        {% elif query.queryStatus == "pending" %}
+                        <td><span class="badge bg-label-info me-1">{{query.queryStatus}}</span></td>
                         {% elif query.queryStatus == "closed" %}
                         <td><span class="badge bg-secondary me-1">{{query.queryStatus}}</span></td>
                         {% else %}
                         <td><span class="badge bg-label-danger me-1">{{query.queryStatus}}</span></td>
                         {% endif %}
+
+                        <td>
+
+                        <div class="col-lg-3" style="text-align: right;">
+                          <select id="query" class="select2 form-select" style="width: fit-content;" onchange="location = this.value;">
+                          
+                              {% if query.queryStatus == "pending" %}
+                              <option value="" disabled selected>Select Status</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/pending/">Pending</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/open/">Open</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/rejected/">Reject</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/closed/">Close</option>
+  
+                              {% elif query.queryStatus == "open" %}
+                              <option value="" disabled selected>Select Status</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/pending/">Pending</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/open/">Open</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/rejected/">Reject</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/closed/">Close</option>
+
+                              {% elif query.queryStatus == "closed" %}
+                              <option value="" disabled selected>Select Status</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/pending/">Pending</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/open/">Open</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/rejected/" >Reject</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/closed/">Close</option>
+
+                              {% elif query.queryStatus == "rejected" %}
+                              <option value="" disabled selected>Select Status</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/pending/">Pending</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/open/">Open</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/rejected/">Reject</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/closed/">Close</option>
+                              
+                              {% else %}
+                              <option value="" disabled selected>Select Status</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/pending/">Pending</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/open/">Open</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/rejected/" selected>Reject</option>
+                              <option value="/userAdminQueryManagement/updateUserQueryStatus/{{query.userAdminQueryId}}/closed/">Close</option>
+                              {% endif %}
+      
+                             
+                            </select>
+                      </div>
+                    </td>
                         <td>
                             <button type="submit" class="btn btn-primary btn-sm"><a href="/userAdminQueryManagement/viewQuery/{{query.userAdminQueryId}}/"><i class="fa fa-eye text-white" aria-hidden="true"></i></a>
                             </button>
@@ -160,8 +207,7 @@
       }
       if(elm.value=="createdAt"){
       document.location.href = "/userAdminQueryManagement/listQueries/createdAt/";
-      }
-      
+      } 
     }
   </script>
 

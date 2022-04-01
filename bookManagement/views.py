@@ -1,27 +1,10 @@
 from gettext import install
 from django.shortcuts import render, redirect
-from rest_framework.views import APIView
 from .models import *
 from .serializers import *
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from users.views import s3_helper, loginDecorator
 # Create your views here.
-
-
-class ListBookView(APIView):
-    """"
-    API for listing all the uploaded books with details
-    """
-    serializers_class = BookListSerializer
-
-    def get(self, request):
-        instance =  Book.objects.all()
-        serializers = self.serializers_class(instance=instance, many=True)
-        return Response({"response_message":"Books fetched successfully", "count": instance.count(), "data": serializers.data}, status=status.HTTP_200_OK)
-
 
 
 @loginDecorator
@@ -29,7 +12,7 @@ def book_list(request, order):
 
     instance = Book.objects.all().order_by(order)
 
-    p = Paginator(instance,2)
+    p = Paginator(instance,3)
     
     page =  request.GET.get('page')
     
@@ -51,8 +34,11 @@ def add_book(request):
         price = request.POST.get('price')
         file = request.FILES.get('file')
         isAvailable = request.POST.get('isAvailable')
+        bookImages = request.FILES.getlist('bookImages')
     
-        Book.objects.create(name=name, bookCover=s3_helper(bookCover), description=description, isAvailable=isAvailable, author=author, authorDescription=authonDescription, price=price, file=s3_helper(file))
+        instance = Book.objects.create(name=name, bookCover=s3_helper(bookCover), description=description, isAvailable=isAvailable, author=author, authorDescription=authonDescription, price=price, file=s3_helper(file))
+        for i in bookImages:
+            BookImages.objects.create(bookImage=s3_helper(i), bookId=instance)
         return redirect("/bookManagement/listBooks/id/")
 
     else:

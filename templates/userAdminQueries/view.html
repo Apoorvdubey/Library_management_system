@@ -8,60 +8,158 @@
     <div class="row">
 
         <div class="col-xxl">
-            <div class="card mb-4">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0">View Complaint & Query</h5>
 
-                </div>
+            <div class="card">
                 <div class="card-body">
-                    <form>
 
-                        <div class="row">
-                            <div class="col-lg-12">
+                    <div class="card-header p-2">
+                       <div class="row">
+                        <div class="col-lg-1">
+                            <img class="w-100" src="{{context.0.userAdminQueryId.userId.image}}" alt="sunil">
+                        </div>   
+                        <div class="col-lg-4">
+                    
+                            <h5 class="m-0">{{context.0.userAdminQueryId.name}}</h5>
+                            <p class="m-0">Ticket Id : {{context.0.userAdminQueryId.userAdminQueryId}}</p>
+                        
+                           
+                        </div>  
+                        <div class="col-lg-7 text-right">
+                            <div class="col-lg-3" style="text-align: right;">
+                                <select id="query" class="select2 form-select" style="width: fit-content;" onchange="location = this.value;">
+                                
+                                    {% if context.0.userAdminQueryId.queryStatus == "pending" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/">Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+        
+                                    {% elif context.0.userAdminQueryId.queryStatus == "open" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/">Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+      
+                                    {% elif context.0.userAdminQueryId.queryStatus == "closed" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/" >Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/" >Close</option>
+      
+                                    {% elif context.0.userAdminQueryId.queryStatus == "rejected" %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/rejected/">Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+                                    
+                                    {% else %}
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/pending/">Pending</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/open/">Open</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}}/rejected/" >Reject</option>
+                                    <option value="/userAdminQueryManagement/updateUserQueryStatus/{{context.0.userAdminQueryId.userAdminQueryId}}/closed/">Close</option>
+                                    {% endif %}
+            
+                                   
+                                  </select>
+                            </div>
+                            
+                            
+                            {% if query.queryStatus == "open" %}
+                        <span class="badge bg-label-success me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% elif query.queryStatus == "pending" %}
+                        <span class="badge bg-label-info me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% elif query.queryStatus == "closed" %}
+                        <span class="badge bg-secondary me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% else %}
+                        <span class="badge bg-label-danger me-1">{{context.0.userAdminQueryId.queryStatus}}</span>
+                        {% endif %}
+                            <!-- <p class="m-0">12/11/11</p> -->
+                        </div>  
 
-                                <div class="card mb-2 mt-2">
-                                    <div class="card-body">
+                       </div>
+                      </div>
+<hr>
 
-                                        <div class="row">
-                                            <div class="col-lg-1">
-                                                <img src="{{context.userAdminQueryId.userId.image}}" alt="Avatar" class="rounded-circle w-100">
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <h6 class="m-0">{{context.userAdminQueryId.userId.fullName}}</h6>
-                                                <p class="m-0">12/1/2022</p>
-                                            </div>
-                                            <!-- <div class="col-lg-8" style="text-align: right;">
-                                                <h6 class="m-0">Issues</h6>
-                                                <p class="m-0">Wrong Price</p>
-                                            </div> -->
-                                            <div class="col-lg-12" style="text-align: justify;">
-                                               
-                                                <p class="mt-3">{{context.message}}
-                                                </p>
-                                            </div>
-                                            <div class="col-lg-12" style="text-align: justify;">
-                                                <label for="exampleFormControlTextarea1" class="form-label">Reply User</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                                <a href="#" class="btn btn-primary mt-3"><i class='bx bx-reply' ></i> Reply</a>
-                                            </div>
-                                           
+
+                <!-- <h5 class=" text-left mb-2">Admin Name : Jhon</h5> -->
+                <div class="messaging">
+                    <div class="inbox_msg">
+
+                        <div class="mesgs">
+                            <div id="scroll-top" class="msg_history">
+
+                                {% for context in context%}
+                        
+                                {% if context.isSentByAdmin == False %}
+                                <div class="incoming_msg">
+                                    <div class="incoming_msg_img"> <img
+                                            src="{{context.userAdminQueryId.userId.image}}"
+                                            alt="sunil"> </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <p>{{context.message}}</p>
+                                            <!-- <span class="time_date"> 11:01 AM | June 9</span> -->
+                                            <span class="time_date">{{context.createdAt}}</span>
                                         </div>
-
                                     </div>
                                 </div>
+                                {% elif context.isSentByAdmin == True %}
+                                <div class="outgoing_msg">
+                                    <div class="incoming_msg_img sent-img"> <img
+                                        src="{{request.user.image}}"
+                                        alt="sunil"> </div>
+                                    <div class="sent_msg">
+                                        <p>{{context.message}}</p>
+                                        <span class="time_date"> {{context.createdAt}}</span>
+                                    </div>
+                                   
+                                </div>
+                                {% endif %}
+                    
+                                {% endfor %}
+                                
                             </div>
 
+                            {% if context.0.userAdminQueryId.queryStatus == "pending" or context.0.userAdminQueryId.queryStatus == "open" %}
+                                <form method="post" action="/userAdminQueryManagement/replyUserQuery/{{context.0.userAdminQueryId.userAdminQueryId}}/">
+                                    {% csrf_token %}
+                                    <div class="input-group">
+                                <input type="text" required class="form-control" name="reply" placeholder="Reply..." aria-label="">
+                                <button class="btn btn-primary" type="submit"><i class='bx bxs-paper-plane' ></i>&nbsp;Send</button>
+                               
+                              </div>
+                            </form>
+                            {% endif %}
                         </div>
-
-
-
-                    </form>
-                </div>
+                    </div>
+                    </div>
             </div>
+        </div>
         </div>
 
     </div>
 </div>
 <!-- / Content -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+    $(document).ready(function() {
+        $('#scroll-top').scrollTop($('#scroll-top')[0].scrollHeight);
+     });
+
+</script>
 
 {% endblock %}
