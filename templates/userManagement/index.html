@@ -132,7 +132,6 @@
                   </table>
                 </div>
 
-                {% if request.resolver_match.url_name == 'listUsers' %}
 
                 <div class="demo-inline-spacing mt-4">
                   <nav aria-label="Page navigation">
@@ -140,8 +139,8 @@
                     <ul class="pagination justify-content-center">
     
                         {% if venues.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
-                          <li class="page-item"><a class="page-link" href="?page={{ venues.previous_page_number }}">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="?page=1&search={{ search }}">&laquo First</a></li>
+                          <li class="page-item"><a class="page-link" href="?page={{ venues.previous_page_number }}&search={{ search }}">Previous</a></li>
                             
                         {% endif %}
                         
@@ -150,9 +149,9 @@
                         
                         
                         {% if venues.has_next %}
-                            <li class="page-item"><a class="page-link" href="?page={{ venues.next_page_number }}">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ venues.next_page_number }}&search={{ search }}">Next</a></li>
                         
-                            <li class="page-item"><a class="page-link" href="?page={{ venues.paginator.num_pages }}">Last &raquo</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ venues.paginator.num_pages }}&search={{ search }}">Last &raquo</a></li>
                         
                         {% endif %}
                         
@@ -160,7 +159,6 @@
                   </nav>
                  
                 </div>
-{% endif %}
 
 
               </div>
