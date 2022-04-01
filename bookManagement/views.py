@@ -114,7 +114,7 @@ def viewBookDetails(request, pk):
     try:
         instance = Book.objects.get(pk=pk)
         imageInstance = BookImages.objects.filter(bookId=instance)
-        return render(request, "bookManagement/view.html", context = {"Book": instance, "imageInstance": imageInstance})
+        return render(request, "bookManagement/view.html", context = {"book": instance, "imageInstance": imageInstance})
     except:
         return redirect("/bookManagement/listBooks/id/")
 

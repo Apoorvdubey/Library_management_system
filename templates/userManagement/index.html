@@ -29,6 +29,7 @@
                         </div>
                       </form>
                     </div>
+                    {% if request.resolver_match.url_name != 'searchUser' %}
                     <div class="col-lg-3" style="text-align: right;">
                       <select id="language" class="select2 form-select" onchange="javascript:handleSelect(this)">
                         
@@ -76,7 +77,12 @@
                        
                       </select>
                     </div>
+                    {% endif %}
+                    {% if request.resolver_match.url_name != 'searchUser' %}
                     <div class="col-lg-4" style="text-align: right;">
+                      {% else %}
+                      <div class="col-lg-7" style="text-align: right;">
+                        {% endif %}
                       <a class="btn btn-primary" href="/users/listUsers/id/"><i class='bx bx-refresh'></i></a>
                     </div>
                   </div>

@@ -14,7 +14,7 @@
               <div class="nav-item d-flex align-items-center">
                {% if request.resolver_match.url_name == 'listUsers' or request.resolver_match.url_name == 'searchUser' or request.resolver_match.url_name == 'editUser' or request.resolver_match.url_name == 'addUsers' %}
                Home / User Management
-               {% elif request.resolver_match.url_name == 'listBooks' or request.resolver_match.url_name == 'addBooks' or request.resolver_match.url_name == 'editBook' %}
+               {% elif request.resolver_match.url_name == 'listBooks' or request.resolver_match.url_name == 'addBooks' or request.resolver_match.url_name == 'editBook' or request.resolver_match.url_name == 'viewBookDetails' %}
                Home / Book Management
                {% elif request.resolver_match.url_name == 'editAdminProfile' %}
                Home / Profile Management

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-!dy0(=kz)bj!_-4_my_=w1%bxxu1n$03l68na*ll6x+y-or%qj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -88,10 +88,10 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rdsebookadmin1',
-        'USER':'admin',
-        'PASSWORD':'rdsebookadmin1',
-        'HOST':'ebookadminrds.cyyugug0gtkq.ap-northeast-1.rds.amazonaws.com',
+        'NAME': 'ebook_db',
+        'USER':'root',
+        'PASSWORD':'Apponward@123',
+        'HOST':'127.0.0.1',
         'PORT':'3306'
     }
 }
