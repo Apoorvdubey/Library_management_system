@@ -88,10 +88,10 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ebook_db',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'127.0.0.1',
+        'NAME': 'rdsebookadmin1',
+        'USER':'admin',
+        'PASSWORD':'rdsebookadmin1',
+        'HOST':'ebookadminrds.cyyugug0gtkq.ap-northeast-1.rds.amazonaws.com',
         'PORT':'3306'
     }
 }
