@@ -1,27 +1,10 @@
 from gettext import install
 from django.shortcuts import render, redirect
-from rest_framework.views import APIView
 from .models import *
 from .serializers import *
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from users.views import s3_helper, loginDecorator
 # Create your views here.
-
-
-class ListBookView(APIView):
-    """"
-    API for listing all the uploaded books with details
-    """
-    serializers_class = BookListSerializer
-
-    def get(self, request):
-        instance =  Book.objects.all()
-        serializers = self.serializers_class(instance=instance, many=True)
-        return Response({"response_message":"Books fetched successfully", "count": instance.count(), "data": serializers.data}, status=status.HTTP_200_OK)
-
 
 
 @loginDecorator
