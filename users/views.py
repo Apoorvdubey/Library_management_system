@@ -174,4 +174,8 @@ def profile_view(request):
 def search_user(request):
     user_name = request.GET.get('search')
     instance = Users.objects.filter(fullName__icontains=user_name)
-    return render(request, "userManagement/index.html" ,{"venues": instance, "nums": 5})
+    p = Paginator(instance,4)
+    page =  request.GET.get('page')
+    venues = p.get_page(page)
+    nums = "a" * venues.paginator.num_pages
+    return render(request, "userManagement/index.html" ,{"venues": venues, "nums": 5, "search": user_name})
